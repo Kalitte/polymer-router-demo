@@ -10,52 +10,64 @@ var cssmin = require('gulp-cssmin');
 
 var files = ['src/*.js', 'src/*.html', 'src/**/*.scss', 'src/**/*css', 'tests/spec/*.js'];
 
+
 gulp.task('sass', function () {
-    gulp.src(['src/scss/*.scss'])
+    gulp.src(['scss/*.scss'])
         .pipe(sass())
         .pipe(cssmin())
-        .pipe(gulp.dest('src/css/'))
+        .pipe(gulp.dest('../polymer-router-demo-publish/css/'))
         .pipe(gulp.dest('css/'));
 });
 
 gulp.task('css', function () {
-    gulp.src(['src/css/*.css'])
+    gulp.src(['css/**/*.css'])
         .pipe(cssmin())
-        .pipe(gulp.dest('css/'));
+        .pipe(gulp.dest('../polymer-router-demo-publish/css/'));
 });
 
 
 gulp.task('merge', function () {
-    return gulp.src('src/index.html')
+    return gulp.src('index.html')
         .pipe(vulcanize({
-            dest: 'src/index-merged.html',
+            dest: 'index-merged.html',
             strip: true
         }))
-        .pipe(gulp.dest('.'));
+        .pipe(gulp.dest('../polymer-router-demo-publish'));
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['src/**/*.js'])
+  return gulp.src(['./js/*.js'])
     .pipe(jshint.extract('always'))
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('build', function() {
-  return gulp.src('src/index-merged.html')
+  gulp.src(['components/webcomponentsjs/webcomponents.js',
+            'components/polymer/polymer.js',
+            'components/core-focusable/polymer-mixin.js',
+            'components/core-focusable/core-focusable.js',
+            'components/web-animations-js/web-animations-next-lite.min.js'], {base: '.'})
     .pipe(uglify({
       preserveComments: 'some'
     }))
-    .pipe(gulp.dest('index.html'));
+    .pipe(gulp.dest('../polymer-router-demo-publish/'));
+
+
+  return gulp.src('index-merged.html')
+    .pipe(uglify({
+      preserveComments: 'some'
+    }))
+    .pipe(gulp.dest('../polymer-router-demo-publish'));
 });
 
 gulp.task('minify', function() {
-  return gulp.src('src/index-merged.html')
+  return gulp.src('index-merged.html')
     .pipe(inline({
-      base: 'src/',
+      base: './',
       js: uglify()
     }))
-    .pipe(gulp.dest('index.html'));
+    .pipe(gulp.dest('../polymer-router-demo-publish'));
 });
 
 
@@ -68,6 +80,8 @@ gulp.task('watch', function() {
 });
 
 // default
+gulp.task('publish', ['sass', 'css', 'merge', 'build', 'minify']);
+
 gulp.task('default', ['lint', 'sass', 'css', 'merge', 'build', 'minify']);
 
 // Travis CI

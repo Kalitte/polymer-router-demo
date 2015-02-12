@@ -1,0 +1,43 @@
+<template>
+  <app-state ignoreMenu header="View Article" url="/articles/:articleId/view">
+    <virtual-view target="#manage-article-holder" el="articles-view">
+
+    </virtual-view>
+
+    <app-state header="Share Article" url="/articles/:articleId/share">
+      <virtual-view target="#share-article-holder" el="articles-share">
+
+      </virtual-view>
+    </app-state>
+  </app-state>
+
+  <app-state ignoreMenu header="Edit Article" url="/articles/:articleId/edit">
+    <virtual-view target="#manage-article-holder" el="articles-edit">
+
+    </virtual-view>
+  </app-state>
+</template>
+
+<script>
+  (function(window, document, undefined) {
+
+    var thatDoc = document;
+
+    var thisDoc = (thatDoc._currentScript || thatDoc.currentScript).ownerDocument;
+
+    var template = thisDoc.querySelector('template').content;
+
+    var Element = Object.create(HTMLElement.prototype);
+
+    Element.createdCallback = function() {
+      var shadowRoot = this.createShadowRoot();
+      var clone = thatDoc.importNode(template, true);
+      shadowRoot.appendChild(clone);
+    };
+
+    thatDoc.registerElement('article-states', {
+      prototype: Element
+    });
+  })(window, document);
+
+</script>
