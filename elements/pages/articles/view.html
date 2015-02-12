@@ -1,0 +1,29 @@
+<polymer-element name="articles-view">
+  <template>
+    <div content>
+      <h4>Article id: {{urlParams.articleId}}</h4>
+      <p>{{article.content}}</p>
+    </div>
+
+    <div content>
+    <h3><a href="#/articles/{{urlParams.articleId}}/share">Share Article?</a></h3>
+    <place-holder id="share-article-holder">
+    </place-holder>
+    </div>
+
+  </template>
+  <script>
+  Polymer({
+
+    observe: {
+      'urlParams.articleId': 'getArticle'
+    },
+
+    getArticle: function() {
+      var article = this.article = this.model.filter(function(article) {
+        return article.id === this.urlParams.articleId;
+      }.bind(this))[0];
+    }
+  });
+  </script>
+</polymer-element>

@@ -1,0 +1,152 @@
+<link rel="import" href="ref.html">
+
+<polymer-element name="my-app" class="app">
+  <template>
+    <state-manager id="stateManager" model="{{globals}}">
+      <app-state id="root" header="Home">
+        <virtual-view target="#navheader-toolbar" class="bottom" layout vertical>
+          <template>
+            <span>username</span>
+            <span>email</span>
+            </div>
+          </template>
+        </virtual-view>
+        <virtual-view target="#side">
+          <template>
+            <app-states-menu ignoreAttr="ignoreMenu" root="{{model.stateManager.root}}"></app-states-menu>
+          </template>
+        </virtual-view>
+        <virtual-view target="#main">
+          <template>
+            <home-page></home-page>
+          </template>
+        </virtual-view>
+
+        <app-state id="articles" header="Articles" model="{{articles}}" childStates="article-states">
+          <virtual-view target="#main" el="articles-home"></virtual-view>
+
+        </app-state>
+
+
+
+        <app-state id="account" header="Account">
+          <virtual-view target="#main" el="account-home">
+          </virtual-view>
+
+          <virtual-view target="#navheader-toolbar" class="account">
+            <template>
+              <h2>Need help?</h2>
+              <span>Need help about your account ?</span>
+              <br>
+              <span>Call ...</span>
+            </template>
+          </virtual-view>
+
+          <app-state id="signin" forceReload header="Login">
+            <virtual-view el="account-signin">
+            </virtual-view>
+          </app-state>
+
+          <app-state id="reset-password" header="Reset Password">
+            <virtual-view el="reset-password" target="#reset-password-holder">
+            </virtual-view>
+            <app-state id="show-phone-numbers" header="Reset Password">
+              <virtual-view target="#phone-numbers" el="phone-numbers">
+              </virtual-view>
+            </app-state>
+          </app-state>
+        </app-state>
+
+        <app-state url="/*" ignoreMenu header="Not Found">
+          <virtual-view target="#main" el="n404-page"></virtual-view>
+        </app-state>
+      </app-state>
+    </state-manager>
+
+
+    <core-drawer-panel id="drawerPanel" narrow="{{narrow}}">
+      <core-header-panel mode="scroll" drawer>
+        <core-toolbar id="navheader" class="medium-tall" layout vertical>
+          <place-holder id="navheader-toolbar"></place-holder>
+        </core-toolbar>
+        <core-menu excludedLocalNames="div">
+          <core-item active icon="home" label="HOME">
+            <a href="#/"></a>
+          </core-item>
+          <div class="separator"></div>
+        </core-menu>
+
+        <place-holder id="side" flex>
+        </place-holder>
+      </core-header-panel>
+
+      <core-scroll-header-panel id="scrollheader" main condenses keepCondensedHeader>
+        <core-toolbar id="mainheader" class="tall {{ {'core-narrow': narrow, 'selected-threads': selectedThreads.length} | tokenList }}">
+          <paper-icon-button icon="arrow-back" on-tap="{{deselectAll}}"></paper-icon-button>
+
+          <paper-icon-button id="navicon" icon="menu" core-drawer-toggle></paper-icon-button>
+          <div flex></div>
+          <span class="bottom indent title">
+              {{$.stateManager.currentState.header}}
+            </span>
+          <paper-icon-button icon="perm-identity">Sign In</paper-icon-button>
+          <paper-icon-button icon="archive" on-tap="{{archiveAll}}"></paper-icon-button>
+          <paper-icon-button icon="delete"></paper-icon-button>
+          <paper-icon-button icon="mail" class="selected-item"></paper-icon-button>
+          <paper-button>
+            <a href="#/account/signin">Sign in</a>
+          </paper-button>
+
+          <paper-menu-button layout horizontal>
+            <paper-icon-button icon="more-vert"></paper-icon-button>
+            <paper-dropdown class="dropdown" halign="right">
+              <paper-item>Move to</paper-item>
+              <paper-item>Change labels"</paper-item>
+              <paper-item>Add star</paper-item>
+              <paper-item>Mark notimportant</paper-item>
+            </paper-dropdown>
+          </paper-menu-button>
+
+        </core-toolbar>
+        <place-holder id="main">
+        </place-holder>
+
+      </core-scroll-header-panel>
+    </core-drawer-panel>
+
+    <paper-toast id="msg" text="State changed from {{$.stateManager.oldState.id || $.stateManager.oldState.header}} to {{$.stateManager.currentState.id || $.stateManager.currentState.header}}">
+      <div style="color: #eeff41;" onclick="window.history.back()">Back?</div>
+    </paper-toast>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      articles: [{
+          id: 434,
+          title: 'Consectetur adipisicing elit.  ipsam esse sapiente.',
+          content: 'Lorem ipsum dolor sit amet, qui sit, minima placeat impedit voluptatem, commodi ullam, id quam magni iusto totam voluptatibus eligendi fugit atque nisi asperiores, est eveniet nemo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, provident, ad? Labore debitis expedita non dignissimos veniam repellendus ducimus voluptas, unde voluptatum blanditiis, tenetur ab culpa esse excepturi laboriosam omnis.'
+        },
+
+        {
+          id: 767,
+          title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. ',
+          content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla nesciunt laborum expedita, sequi quos et ipsa quo eum incidunt dicta sunt nihil ab sapiente aliquam rem. Quasi inventore qui sit.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur reprehenderit obcaecati sint soluta, hic autem neque. Porro sapiente laudantium eius nam fuga nesciunt iure error maxime, odit ab. Nam, nulla.'
+        }
+      ],
+
+      ready: function() {
+        this.globals = {
+          stateManager: this.$.stateManager
+        };
+
+        document.addEventListener('app-state-changed', function(e) {
+          this.$.msg.show();
+        }.bind(this));
+      }
+
+    });
+  </script>
+
+</polymer-element>

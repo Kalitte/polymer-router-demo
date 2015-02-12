@@ -1,0 +1,135 @@
+body {
+  font-family: "RobotoDraft", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  background-color: #fafafa;
+  font-weight: 300;
+}
+
+.app /deep/ #navheader /deep/ .account {
+  color: #454;
+}
+
+.app /deep/ a {
+  color: #03a9f4;
+  text-decoration: none;
+}
+
+.app /deep/ #drawerPanel core-scroll-header-panel /deep/ [content] {
+  padding:12px 12px 12px 12px;
+}
+
+.app /deep/ paper-tabs {
+  background-color:#eee;
+}
+
+.app /deep/ paper-tab /deep/ paper-ripple #ink {
+}
+
+.app /deep/ #drawerPanel core-header-panel /deep/ .separator {
+  border-top: 1px solid #e0e0e0;
+  height:1px;
+}
+
+.app /deep/ drawerPanel[narrow][selected="drawer"] .fade-on-drawer-open {
+  opacity: 0;
+}
+
+.app /deep/ .fade-on-drawer-open {
+  transition: opacity 300ms ease-in-out;
+}
+
+.app /deep/ #drawerPanel core-header-panel {
+  background: #fafafa;
+  box-shadow: 1px 0 1px rgba(0, 0, 0, 0.1);
+  color: #757575;
+}
+
+
+
+.app /deep/ #drawerPanel core-header-panel core-menu {
+  margin: 16px 0 0 0;
+}
+
+
+.app /deep/ #drawerPanel core-scroll-header-panel::shadow #condensedHeaderBg {
+  background-color: #e51c23;
+  opacity: 1 !important; /* Prevents the background color from dissolving. */
+}
+
+.app /deep/ paper-item::shadow core-icon {
+  margin-right: 24px !important;
+}
+
+.app /deep/ paper-item.core-selected {
+  background-color: #eee;
+}
+
+.app /deep/ paper-item.core-selected::shadow core-icon {
+  color: #757575;
+}
+
+.app /deep/ #navheader {
+  background-color: #03a9f4;
+  font-size: inherit;
+  color: white;
+}
+
+.app /deep/ #navheader::shadow .toolbar-tools {
+  z-index: 1;
+}
+
+
+
+.app /deep/ #navheader.coverimg::after {
+  opacity: 1;
+}
+
+.app /deep/ #navheader img.profile {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 20px;
+}
+
+.app /deep/ #navheader .bottom :last-child {
+  font-size: small;
+  opacity: 0.8;
+}
+
+.app /deep/ #mainheader, .app /deep/ core-toolbar {
+  color: #fff;
+  background-color: #03a9f4;
+}
+
+.app /deep/ #mainheader .title {
+  font-size: 30px;
+  transform-origin: 0px 50%;
+  margin-left: 70px;
+}
+
+.app /deep/ core-toolbar /deep/ a {
+  color:#fff;
+  text-decoration:none;
+  text-transform: none;
+}
+
+.app /deep/ #mainheader paper-dropdown {
+  color: initial;
+}
+
+.app /deep/ core-header-panel /deep/ core-menu {
+  margin: 0px;
+}
+
+.app /deep/ core-header-panel /deep/ core-menu /deep/ core-item {
+  line-height:48px;
+  padding: 0 16px;
+}
+
+.app /deep/ core-header-panel /deep/ core-submenu[active] {} .app /deep/ core-header-panel /deep/ div#mainPanel {
+}
+
+.app /deep/ core-header-panel /deep/ core-submenu[active] /deep/ core-item#submenuItem {
+  background-color: #eee;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Polymer router / app-state demo",
+  "version": "0.5.4",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "app-states": "~0.5.4",
+    "app-states-ui": "~0.5.4",
+    "polymer": "Polymer/polymer#~0.5.4",
+    "paper-elements": "Polymer/paper-elements#~0.5.4",
+    "core-elements": "Polymer/core-elements#~0.5.4",
+    "webcomponentsjs": "~0.5.4"
+  }
+}
