@@ -10,7 +10,7 @@
     "tests"
   ],
   "dependencies": {
-    "app-states": "~0.5.4",
+    "app-states": "~0.5.5",
     "app-states-ui": "~0.5.4",
     "polymer": "Polymer/polymer#~0.5.4",
     "paper-elements": "Polymer/paper-elements#~0.5.4",
