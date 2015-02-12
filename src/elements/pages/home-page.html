@@ -1,0 +1,52 @@
+<polymer-element name="home-page">
+  <template>
+
+    <style>
+    </style>
+
+      <div class="bottom fit">
+        <paper-tabs selected="0"
+        >
+
+          <paper-tab>ITEM ONE</paper-tab>
+          <paper-tab>ITEM TWO</paper-tab>
+          <paper-tab>ITEM THREE</paper-tab>
+
+        </paper-tabs>
+
+      </div>
+
+    <div class="pageContent">
+      <h1>Hi!!!!</h1>
+      <a href="/#/test">Click</a>
+      <app-router>
+        <app-route path='/test' element="eua-page"></app-route>
+      </app-router>
+    </div>
+
+    <button on-click="{{openDialog}}">
+          Plain dialog
+        </button>
+test:        {{test}}
+
+        <paper-dialog transition="paper-dialog-transition"  id="dialog">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </paper-dialog>
+
+
+
+  </template>
+  <script>
+    Polymer({
+
+      openDialog: function() {
+
+        this.$.dialog.open();
+      },
+
+      ready: function() {
+
+      }
+    });
+  </script>
+</polymer-element>

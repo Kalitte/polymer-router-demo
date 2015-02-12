@@ -7,7 +7,10 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "tmp",
+    "gulpfile.js",
+    "package.json"
   ],
   "dependencies": {
     "app-states": "~0.5.5",
