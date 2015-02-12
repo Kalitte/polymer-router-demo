@@ -6,6 +6,14 @@ body {
   font-weight: 300;
 }
 
+.app /deep/ .listItem {
+  border: solid 1px #ddd;
+  margin-bottom:15px;
+  border-radius: 5px;
+  padding:12px;
+  background-color: #eee;
+}
+
 .app /deep/ #navheader /deep/ .account {
   color: #454;
 }

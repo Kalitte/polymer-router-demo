@@ -1,0 +1,36 @@
+<template>
+
+  <app-state id="signin" forceReload header="Login">
+    <virtual-view el="account-signin">
+    </virtual-view>
+  </app-state>
+
+  <app-state id="reset-password" header="Reset Password">
+    <virtual-view el="reset-password" target="#reset-password-holder">
+    </virtual-view>
+    <app-state id="show-phone-numbers-state" urlPostfix="show-phone-numbers" header="Reset Password">
+      <virtual-view target="#phone-numbers" el="phone-numbers">
+      </virtual-view>
+    </app-state>
+  </app-state>
+  
+</template>
+
+<script>
+  (function(window, document, undefined) {
+    var thisDoc = (document._currentScript || document.currentScript).ownerDocument;
+    var template = thisDoc.querySelector('template').content;
+    var Element = Object.create(HTMLElement.prototype);
+
+    Element.createdCallback = function() {
+      var shadowRoot = this.createShadowRoot();
+      var clone = document.importNode(template, true);
+      shadowRoot.appendChild(clone);
+    };
+
+    document.registerElement('account-states', {
+      prototype: Element
+    });
+  })(window, document);
+
+</script>

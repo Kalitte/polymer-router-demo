@@ -1,0 +1,157 @@
+<link rel="import" href="ref.html">
+
+<polymer-element name="my-app" class="app">
+  <template>
+    <app-state-manager id="stateManager" model="{{globals}}" mode="hash">
+      <app-state id="root" header="Home">
+        <virtual-view target="#navheader-toolbar" class="bottom" layout vertical>
+          <template>
+            <span>username</span>
+            <span>email</span>
+            </div>
+          </template>
+        </virtual-view>
+
+        <virtual-view target="#side">
+          <template>
+            <app-states-menu ignoreAttr="ignoreMenu" root="{{model.stateManager.root}}"></app-states-menu>
+          </template>
+        </virtual-view>
+
+        <virtual-view target="#main" el="home-page"></virtual-view>
+
+        <app-state id="articles" urlPostfix="articles" header="Articles" model="{{articles}}" childStates="article-states">
+          <virtual-view target="#main" el="articles-home"></virtual-view>
+        </app-state>
+
+        <app-state id="account" header="Account" childStates="account-states">
+          <virtual-view target="#main" el="account-home">
+          </virtual-view>
+
+          <virtual-view target="#navheader-toolbar" class="account">
+            <template>
+              <h2>Need help?</h2>
+              <span>Need help about your account ?</span>
+              <br>
+              <span>Call ...</span>
+            </template>
+          </virtual-view>
+        </app-state>
+
+        <app-state url="*" ignoreMenu header="Not Found">
+          <virtual-view target="#main" el="n404-page"></virtual-view>
+        </app-state>
+      </app-state>
+    </app-state-manager>
+
+
+    <core-drawer-panel id="drawerPanel" narrow="{{narrow}}">
+      <core-header-panel mode="scroll" drawer>
+        <core-toolbar id="navheader" class="medium-tall" layout vertical>
+          <place-holder id="navheader-toolbar"></place-holder>
+        </core-toolbar>
+        <core-menu excludedLocalNames="div">
+          <core-item active icon="home" label="HOME">
+            <a href="#/"></a>
+          </core-item>
+          <div class="separator"></div>
+        </core-menu>
+
+        <place-holder id="side" flex>
+        </place-holder>
+      </core-header-panel>
+
+      <core-scroll-header-panel id="scrollheader" main condenses keepCondensedHeader>
+        <core-toolbar id="mainheader" class="tall {{ {'core-narrow': narrow, 'selected-threads': selectedThreads.length} | tokenList }}">
+
+
+          <paper-icon-button id="navicon" icon="menu" core-drawer-toggle></paper-icon-button>
+          <div flex></div>
+          <span class="bottom indent title">
+              {{$.stateManager.currentState.header}}
+            </span>
+          <paper-button>
+            <a href="#/account/signin">Sign in</a>
+          </paper-button>
+
+        </core-toolbar>
+        <place-holder id="main">
+        </place-holder>
+
+      </core-scroll-header-panel>
+    </core-drawer-panel>
+
+    <paper-toast id="msg" text="State changed from {{$.stateManager.oldState.id || $.stateManager.oldState.header}} to {{$.stateManager.currentState.id || $.stateManager.currentState.header}}">
+      <div style="color: #eeff41;" onclick="window.history.back()">Back?</div>
+    </paper-toast>
+
+  </template>
+
+  <script>
+    (function() {
+      var strings = [
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea adipisci fuga fugiat deserunt provident natus veniam accusamus minus. Quaerat nemo voluptate similique ad quam, est eius, harum tenetur mollitia officiis!",
+        "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "Quia unde, at nihil dolor veniam provident placeat assumenda suscipit autem error a sint id numquam eveniet eius, incidunt possimus obcaecati officiis!"
+      ];
+
+      var namegen = {
+        generateString: function(inLength) {
+          var s = '';
+          for (var i = 0; i < inLength; i++) {
+            s += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+          }
+          return s;
+        },
+        generateName: function(inMin, inMax) {
+          return this.generateString(Math.floor(Math.random() * (inMax - inMin + 1) + inMin));
+        }
+      };
+
+      Polymer({
+
+        count: 50,
+
+        generateData: function() {
+          var names = [], surNames = [];
+            data = [];
+          for (var i = 0; i < this.count; i++) {
+            names.push(namegen.generateName(5, 12));
+            surNames.push(namegen.generateName(6, 18));
+          }
+          names.sort();
+          for (i = 0; i < this.count; i++) {
+            data.push({
+              id: i+1,
+              title: names[i] + ' ' +surNames[i],
+              content: strings[i % 4],
+              image: i % 4,
+              value: 0,
+              type: 0,
+              checked: false
+            });
+          }
+          return data;
+        },
+
+
+        ready: function() {
+
+          this.articles = this.generateData();
+          this.globals = {
+            stateManager: this.$.stateManager
+          };
+
+          document.addEventListener('app-state-changed', function(e) {
+            this.$.msg.show();
+          }.bind(this));
+        }
+
+      });
+
+
+    })();
+  </script>
+
+</polymer-element>

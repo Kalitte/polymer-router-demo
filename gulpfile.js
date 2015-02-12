@@ -12,7 +12,7 @@ var files = ['src/*.js', 'src/*.html', 'src/**/*.scss', 'src/**/*css', 'tests/sp
 
 
 gulp.task('sass', function () {
-    gulp.src(['scss/*.scss'])
+    gulp.src(['src/scss/*.scss'])
         .pipe(sass())
         .pipe(cssmin())
         .pipe(gulp.dest('../polymer-router-demo-publish/css/'))
@@ -20,23 +20,23 @@ gulp.task('sass', function () {
 });
 
 gulp.task('css', function () {
-    gulp.src(['css/**/*.css'])
+    gulp.src(['src/css/*.css'])
         .pipe(cssmin())
+        .pipe(gulp.dest('css/'))
         .pipe(gulp.dest('../polymer-router-demo-publish/css/'));
 });
 
 
 gulp.task('merge', function () {
-    return gulp.src('index.html')
+    return gulp.src('src/index.html')
         .pipe(vulcanize({
-            dest: 'index-merged.html',
-            strip: true
+            dest: './'
         }))
         .pipe(gulp.dest('../polymer-router-demo-publish'));
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['./js/*.js'])
+  return gulp.src(['src/js/**/*.js'])
     .pipe(jshint.extract('always'))
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
@@ -51,7 +51,7 @@ gulp.task('build', function() {
     .pipe(uglify({
       preserveComments: 'some'
     }))
-    .pipe(gulp.dest('../polymer-router-demo-publish/'));
+    .pipe(gulp.dest('../polymer-router-demo-publish/Polymer/'));
 
 
   return gulp.src('index-merged.html')
@@ -64,7 +64,7 @@ gulp.task('build', function() {
 gulp.task('minify', function() {
   return gulp.src('index-merged.html')
     .pipe(inline({
-      base: './',
+      base: '.',
       js: uglify()
     }))
     .pipe(gulp.dest('../polymer-router-demo-publish'));
@@ -83,6 +83,8 @@ gulp.task('watch', function() {
 gulp.task('publish', ['sass', 'css', 'merge', 'build', 'minify']);
 
 gulp.task('default', ['lint', 'sass', 'css', 'merge', 'build', 'minify']);
+
+
 
 // Travis CI
 gulp.task('ci', ['lint']);
