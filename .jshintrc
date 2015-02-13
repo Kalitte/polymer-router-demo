@@ -1,6 +1,6 @@
 {
   "indent": 2,
-  "undef": true,
+  "undef": false,
   "unused": false,
   "trailing": true,
   "quotmark": true,

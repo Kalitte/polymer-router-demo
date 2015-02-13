@@ -1,4 +1,6 @@
 node_modules
-components
+app/components
 .DS_Store
 vulcanized*
+npm-debug.log
+publish

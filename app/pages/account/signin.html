@@ -1,0 +1,40 @@
+<polymer-element name="account-signin" extends="app-page">
+
+  <template>
+    <paper-action-dialog  id="dialog" heading="Login" transition="core-transition-top" style="background-color: #efefef">
+
+        <paper-input floatingLabel label="e-mail"></paper-input><br/>
+        <paper-input floatingLabel label="Password"></paper-input><br/>
+
+        <paper-button affirmative closeDialog on-tap="{{back}}">Dismiss</paper-button>
+        <paper-button affirmative default>Login</paper-button>
+
+    </paper-action-dialog >
+  </template>
+
+  <script>
+    Polymer({
+
+      back: function() {
+        window.history.back();
+      },
+
+      ready: function() {
+        this.$.dialog.open();
+      },
+
+      created: function() {
+
+      },
+
+      detached: function() {
+        this.$.dialog.close();
+      },
+
+      openDialog: function() {
+        this.$.dialog.open();
+      }
+    });
+  </script>
+
+</polymer-element>

@@ -1,4 +1,3 @@
-'use strict';
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
@@ -7,84 +6,80 @@ var karma = require('gulp-karma');
 var vulcanize = require('gulp-vulcanize');
 var sass = require('gulp-sass');
 var cssmin = require('gulp-cssmin');
+var browserSync = require('browser-sync');
+var gulpFilter = require('gulp-filter');
 
-var files = ['src/*.js', 'src/*.html', 'src/**/*.scss', 'src/**/*css', 'tests/spec/*.js'];
+gulp.task('browser-sync', function() {
+  browserSync({
+    server: {
+      baseDir: __dirname + '/'
+    },
+    ghostMode: false,
+    notify: false,
+    debounce: 200,
+    port: 9001,
+    startPath: '/app/'
+  });
 
-
-gulp.task('sass', function () {
-    gulp.src(['src/scss/*.scss'])
-        .pipe(sass())
-        .pipe(cssmin())
-        .pipe(gulp.dest('../polymer-router-demo-publish/css/'))
-        .pipe(gulp.dest('css/'));
+  gulp.watch([
+    __dirname + '/app/**/*.{js,html,css,svg,png,gif,jpg,jpeg}'
+  ], {
+    debounceDelay: 400
+  }, function() {
+    browserSync.reload();
+  });
 });
 
-gulp.task('css', function () {
-    gulp.src(['src/css/*.css'])
-        .pipe(cssmin())
-        .pipe(gulp.dest('css/'))
-        .pipe(gulp.dest('../polymer-router-demo-publish/css/'));
+gulp.task('merge', function() {
+  return gulp.src('app/index.html')
+    .pipe(vulcanize({
+      dest: './app',
+      strip: true,
+      csp: true
+    }))
+    .pipe(gulp.dest('publish'))
+    .pipe(gulpFilter(['*.js']))
+    .pipe(uglify())
+    .pipe(gulp.dest('publish'));
+});
+
+gulp.task('sass-dev', function() {
+  gulp.src(['app/scss/*.scss'])
+    .pipe(sass())
+    .pipe(gulp.dest('app/css'));
 });
 
 
-gulp.task('merge', function () {
-    return gulp.src('src/index.html')
-        .pipe(vulcanize({
-            dest: './'
-        }))
-        .pipe(gulp.dest('../polymer-router-demo-publish'));
+gulp.task('sass-publish', function() {
+  gulp.src(['app/scss/*.scss'])
+    .pipe(sass())
+    .pipe(cssmin())
+    .pipe(gulp.dest('publish/css'));
 });
 
-gulp.task('lint', function() {
-  return gulp.src(['src/js/**/*.js'])
-    .pipe(jshint.extract('always'))
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'));
+gulp.task('css-publish', function() {
+  gulp.src(['app/css/*.css'])
+    .pipe(cssmin())
+    .pipe(gulp.dest('publish/css'));
 });
 
-gulp.task('build', function() {
-  gulp.src(['components/webcomponentsjs/webcomponents.js',
-            'components/polymer/polymer.js',
-            'components/core-focusable/polymer-mixin.js',
-            'components/core-focusable/core-focusable.js',
-            'components/web-animations-js/web-animations-next-lite.min.js'], {base: '.'})
+gulp.task('vendor', function() {
+  gulp.src(['app/components/webcomponentsjs/webcomponents.js',
+    'app/components/polymer/polymer.js',
+    'app/components/core-focusable/polymer-mixin.js',
+    'app/components/core-focusable/core-focusable.js',
+    'app/components/web-animations-js/web-animations-next-lite.min.js'
+  ], {
+    base: './app'
+  })
     .pipe(uglify({
       preserveComments: 'some'
     }))
-    .pipe(gulp.dest('../polymer-router-demo-publish/Polymer/'));
-
-
-  return gulp.src('index-merged.html')
-    .pipe(uglify({
-      preserveComments: 'some'
-    }))
-    .pipe(gulp.dest('../polymer-router-demo-publish'));
-});
-
-gulp.task('minify', function() {
-  return gulp.src('index-merged.html')
-    .pipe(inline({
-      base: '.',
-      js: uglify()
-    }))
-    .pipe(gulp.dest('../polymer-router-demo-publish'));
+    .pipe(gulp.dest('publish/'));
 });
 
 
-// watch
-gulp.task('watch', function() {
-  gulp.watch(files, ['lint', 'sass', 'css', 'merge', 'build', 'minify'])
-    .on('change', function(event) {
-      console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    });
-});
 
-// default
-gulp.task('publish', ['sass', 'css', 'merge', 'build', 'minify']);
+gulp.task('publish', ['merge', 'sass-publish', 'css-publish', 'vendor']);
 
-gulp.task('default', ['lint', 'sass', 'css', 'merge', 'build', 'minify']);
-
-
-
-// Travis CI
-gulp.task('ci', ['lint']);
+gulp.task('default', ['browser-sync', 'sass-src']);

@@ -21,6 +21,8 @@
     "jshint-stylish": "^0.4.0",
     "karma": "~0.12.25",
     "karma-chrome-launcher": "^0.1.4",
-    "karma-jasmine": "^0.1.5"
-  }
+    "karma-jasmine": "^0.1.5",
+    "browser-sync": "^2.0.1",
+    "gulp-filter": "^2.0.1"
+  },
 }
