@@ -2,7 +2,7 @@
   <template>
     <app-state id="view-article-sate" ignoreMenu header="View Article" urlPostfix=":articleId/view">
       <template is="state-view" target="#manage-article-holder">
-        <articles-view urlParams="{{ urlParams }}" model="{{ model }}"></articles-view>
+        <articles-view articleId="{{ urlParams.articleId }}" articles="{{ data }}"></articles-view>
 
         </template>
 

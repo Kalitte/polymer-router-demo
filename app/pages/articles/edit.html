@@ -34,8 +34,8 @@
       save: function() {
         this.$.dialog.close();
         this.async(function() {
-          var state = window.appStateManager.getStateById('articles');
-          window.appStateManager.go(state.buildUrl());
+          var state = window.AppStates.manager.getStateById('articles');
+          window.AppStates.manager.go(state.buildUrl());
 
         });
       },
@@ -43,8 +43,8 @@
       back: function() {
         this.$.dialog.close();
         this.async(function() {
-          var state = window.appStateManager.getStateById('articles');
-          window.appStateManager.go(state.buildUrl());
+          var state = window.AppStates.manager.getStateById('articles');
+          window.AppStates.manager.go(state.buildUrl());
 
         });
       },

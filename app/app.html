@@ -4,8 +4,9 @@
   <template>
 
 
-    <app-state-manager id="stateManager" model="{{globals}}" mode="hash">
-      <app-state id="root" header="Home">
+    <app-state-manager id="stateManager"  mode="hash">
+
+      <app-state id="root" header="Home" bindModel="{{ stateModelBase }}" bindState bindUrlParams>
         <template is="state-view" target="#navheader-toolbar">
             <span>username</span>
             <span>email</span>
@@ -13,16 +14,16 @@
         </template>
 
         <template is="state-view" target="#side">
-            <app-states-menu ignoreAttr="ignoreMenu" root="{{model.stateManager.root}}"></app-states-menu>
+            <app-states-menu ignoreAttr="ignoreMenu"></app-states-menu>
         </template>
 
-        <template is="state-view" target="#main">
-          <home-page></home-page>
+        <template is="state-view" target="#main" bindModel="{{ {Hi:12}  }}">
+          <home-page Hi="{{ Hi }}"></home-page>
         </template>
 
-        <app-state id="articles" urlPostfix="articles" header="Articles" model="{{ articles }}" childStates="article-states">
+        <app-state id="articles" urlPostfix="articles" header="Articles" bindModelAs="data" bindModel="{{ articles }}"  childStates="article-states">
           <template is="state-view" target="#main">
-            <articles-home articles="{{ model }}"></articles-home>
+            <articles-home articles="{{ data }}"></articles-home>
           </template>
         </app-state>
 
@@ -148,8 +149,12 @@
         ready: function() {
 
           this.articles = this.generateData();
-          this.globals = {
-            stateManager: this.$.stateManager
+          this.stateModelBase = {
+            foo: 12,
+            temp: 'test string',
+            alert: function(msg) {
+              alert(msg);
+            }
           };
 
           document.addEventListener('app-state-changed', function(e) {

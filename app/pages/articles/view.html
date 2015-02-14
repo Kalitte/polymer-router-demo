@@ -1,12 +1,12 @@
-<polymer-element name="articles-view" attributes="urlParams model">
+<polymer-element name="articles-view" attributes="articleId articles">
   <template>
-    <paper-action-dialog id="dialog" heading="Article {{article.id}}" transition="core-transition-top" style="background-color: #fff;width:90%" layered="false" autoCloseDisabled>
+    <paper-action-dialog id="dialog" heading="Article {{articleId}}" transition="core-transition-top" style="background-color: #fff;width:90%" layered="false" autoCloseDisabled>
 
       <h2>{{article.title}}</h2>
       <div content>
         <p>{{article.content}}</p>
 
-        <h3><a is="app-states-anchor" stateId="share-article-sate" params="{{ {articleId: article.id}  }}">Share Article?</a></h3>
+        <h3><a is="app-states-anchor" stateId="share-article-sate" params="{{ {articleId: articleId}  }}">Share Article?</a></h3>
         <place-holder id="share-article-holder">
         </place-holder>
       </div>
@@ -24,15 +24,19 @@
   (function() {
     Polymer({
 
-      observe: {
-        'urlParams.articleId': 'getArticle'
+      articleIdChanged: function() {
+        if (!this.articleId)
+          return;
+        var article = this.article = this.articles.filter(function(article) {
+          return article.id === this.articleId;
+        }.bind(this))[0];
       },
 
       back: function() {
         this.$.dialog.close();
         this.async(function() {
-          var state = window.appStateManager.getStateById('articles');
-          window.appStateManager.go(state.buildUrl());
+          var state = window.AppStates.manager.getStateById('articles');
+          window.AppStates.manager.go(state.buildUrl());
 
         });
       },
@@ -45,12 +49,6 @@
 
       openDialog: function() {
         this.$.dialog.open();
-      },
-
-      getArticle: function() {
-        var article = this.article = this.model.filter(function(article) {
-          return article.id === this.urlParams.articleId;
-        }.bind(this))[0];
       }
     });
   })();
