@@ -1,4 +1,4 @@
-<polymer-element name="articles-view">
+<polymer-element name="articles-view" attributes="urlParams model">
   <template>
     <paper-action-dialog id="dialog" heading="Article {{article.id}}" transition="core-transition-top" style="background-color: #fff;width:90%" layered="false" autoCloseDisabled>
 
@@ -20,6 +20,8 @@
 
   </template>
   <script>
+
+  (function() {
     Polymer({
 
       observe: {
@@ -39,9 +41,7 @@
         this.$.dialog.open();
       },
 
-      detached: function() {
-        //this.$.dialog.close();
-      },
+
 
       openDialog: function() {
         this.$.dialog.open();
@@ -53,5 +53,8 @@
         }.bind(this))[0];
       }
     });
+  })();
+
+
   </script>
 </polymer-element>

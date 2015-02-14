@@ -1,54 +1,57 @@
 <link rel="import" href="ref.html">
 
-
 <polymer-element name="my-app" class="app">
   <template>
 
+
     <app-state-manager id="stateManager" model="{{globals}}" mode="hash">
       <app-state id="root" header="Home">
-        <virtual-view target="#navheader-toolbar" class="bottom" layout vertical>
-          <template>
+        <template is="state-view" target="#navheader-toolbar">
             <span>username</span>
             <span>email</span>
             </div>
-          </template>
-        </virtual-view>
+        </template>
 
-        <virtual-view target="#side">
-          <template>
+        <template is="state-view" target="#side">
             <app-states-menu ignoreAttr="ignoreMenu" root="{{model.stateManager.root}}"></app-states-menu>
+        </template>
+
+        <template is="state-view" target="#main">
+          <home-page></home-page>
+        </template>
+
+        <app-state id="articles" urlPostfix="articles" header="Articles" model="{{ articles }}" childStates="article-states">
+          <template is="state-view" target="#main">
+            <articles-home articles="{{ model }}"></articles-home>
           </template>
-        </virtual-view>
-
-        <virtual-view target="#main" el="home-page"></virtual-view>
-
-        <app-state id="articles" urlPostfix="articles" header="Articles" model="{{articles}}" childStates="article-states">
-          <virtual-view target="#main" el="articles-home"></virtual-view>
         </app-state>
 
         <app-state id="account" header="Account" childStates="account-states">
-          <virtual-view target="#main" el="account-home">
-          </virtual-view>
+          <template is="state-view" target="#main">
+              <account-home></account-home>
+          </template>
 
-          <virtual-view target="#navheader-toolbar" class="account">
-            <template>
-              <h2>Need help?</h2>
-              <span>Need help about your account ?</span>
+          <template is="state-view" target="#navheader-toolbar" class="account">
+              <h2>{{ model.stateManager.id }}</h2>
+
               <br>
               <span>Call ...</span>
-            </template>
-          </virtual-view>
+          </template>
         </app-state>
 
         <app-state url="*" ignoreMenu header="Not Found">
-          <virtual-view target="#main" el="n404-page"></virtual-view>
+          <template is="state-view" target="#main">
+            <n404-page></n404-page>
+          </template>
         </app-state>
       </app-state>
     </app-state-manager>
 
+
     <core-drawer-panel id="drawerPanel" narrow="{{narrow}}">
       <core-header-panel mode="scroll" drawer>
         <core-toolbar id="navheader" class="medium-tall" layout vertical>
+
           <place-holder id="navheader-toolbar"></place-holder>
         </core-toolbar>
         <core-menu excludedLocalNames="div">
@@ -119,7 +122,9 @@
         },
 
         generateData: function() {
-          var names = [], surNames = [], data = [];
+          var names = [],
+            surNames = [],
+            data = [];
           for (var i = 0; i < this.count; i++) {
             names.push(namegen.generateName(5, 12));
             surNames.push(namegen.generateName(6, 18));
@@ -127,7 +132,7 @@
           names.sort();
           for (i = 0; i < this.count; i++) {
             data.push({
-              id: i+1,
+              id: i + 1,
               title: names[i] + ' ' + surNames[i],
               content: strings[i % 4],
               image: i % 4,

@@ -1,9 +1,9 @@
-<polymer-element name="articles-home" noscript>
+<polymer-element name="articles-home" attributes="articles">
   <template>
 
 
     <div content >
-      <template repeat="{{article in model}}">
+      <template repeat="{{article in articles}}">
         <div class="listItem">
           <h2>{{article.title}}</h2>
           <div layout horizontal>
@@ -21,4 +21,17 @@
     </place-holder>
 
   </template>
+
+  <script>
+  Polymer({
+
+    created: function() {
+      console.log('article home created');
+    },
+
+    domReady: function() {
+
+    }
+  });
+  </script>
 </polymer-element>

@@ -1,4 +1,4 @@
-<polymer-element name="home-page">
+<polymer-element name="home-page" attributes="Hi">
   <template>
       <div class="bottom fit">
         <paper-tabs selected="0" on-core-select="{{activateTab}}" id="tab">
@@ -10,6 +10,7 @@
 
       <div content>
 <h1>Polymer Router</h1>
+<h1>Hi is: {{Hi}}</h1>
       </div>
   </template>
   <script>
@@ -33,8 +34,15 @@
         //  window.appStateManager.go(url);
       },
 
-      ready: function() {
+      detached: function() {
 
+
+      },
+
+      ready: function() {
+        setTimeout(function() {
+          this.Hi = 1211;
+        }.bind(this), 3000);
       }
     });
   </script>

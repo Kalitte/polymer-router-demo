@@ -21,13 +21,14 @@ gulp.task('browser-sync', function() {
     startPath: '/app/'
   });
 
-  gulp.watch([
-    __dirname + '/app/**/*.{js,html,css,svg,png,gif,jpg,jpeg}'
-  ], {
-    debounceDelay: 400
-  }, function() {
-    browserSync.reload();
-  });
+  // gulp.watch([
+  //   '!' + __dirname + '/app/components/**/*.*',
+  //   __dirname + '/app/**/*.{js,html}'
+  // ], {
+  //   debounceDelay: 400
+  // }, function() {
+  //   browserSync.reload();
+  // });
 });
 
 gulp.task('merge', function() {
@@ -68,7 +69,9 @@ gulp.task('vendor', function() {
     'app/components/polymer/polymer.js',
     'app/components/core-focusable/polymer-mixin.js',
     'app/components/core-focusable/core-focusable.js',
-    'app/components/web-animations-js/web-animations-next-lite.min.js'
+    'app/components/web-animations-js/web-animations-next-lite.min.js',
+    'app/components/app-states-ui/app-states-ui.js',
+    'app/components/app-states/app-states.js'
   ], {
     base: './app'
   })
@@ -82,4 +85,4 @@ gulp.task('vendor', function() {
 
 gulp.task('publish', ['merge', 'sass-publish', 'css-publish', 'vendor']);
 
-gulp.task('default', ['browser-sync', 'sass-src']);
+gulp.task('default', ['browser-sync', 'sass-dev']);
