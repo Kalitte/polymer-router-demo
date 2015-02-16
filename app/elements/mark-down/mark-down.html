@@ -1,0 +1,42 @@
+<script src='../../bower_components/marked/lib/marked.js'></script>
+<script src='./highlight.pack.js'></script>
+
+<polymer-element name="mark-down" attributes="text">
+  <template>
+    <style>
+      : host {
+        display: block;
+      }
+    </style>
+    <content></content>
+    <div id="markdown"></div>
+  </template>
+  <script>
+    Polymer("mark-down", {
+      ready: function() {
+        hljs.configure({tabReplace: '    '});
+        hljs.initHighlighting();
+        marked.setOptions({
+          highlight: function(code, lang) {
+            return hljs.highlight(lang, code).value;
+          }
+        });
+        var content = this.trim(this.childNodes[0].textContent);
+        this.removeChild(this.childNodes[0]);
+        this.text = this.text || this.trim(content);
+      },
+
+      textChanged: function() {
+        if (this.text === null) {
+          this.innerHTML = '';
+        } else {
+          this.innerHTML = marked(this.text);
+        }
+        this.fire('mark-down-ready');
+      },
+      trim: function(str) {
+        return str.replace(/^[^\S\n]+/gm, '');
+      }
+    });
+  </script>
+</polymer-element>

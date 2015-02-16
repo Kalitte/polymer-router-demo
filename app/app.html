@@ -4,56 +4,68 @@
   <template>
 
 
-    <app-state-manager id="stateManager"  mode="hash">
+    <app-states id="stateManager" mode="hash">
 
-      <app-state id="root" header="Home" bindModel="{{ stateModelBase }}" bindState bindUrlParams>
-        <template is="state-view" target="#navheader-toolbar">
-            <span>username</span>
-            <span>email</span>
-            </div>
+      <app-state id="root" header="Home" bindState bindUrlParams>
+        <template is="states-template" target="#navheader-toolbar">
+          <span>username</span>
+          <span>{{foo}}</span>
+          </div>
         </template>
 
-        <template is="state-view" target="#side">
-            <app-states-menu ignoreAttr="ignoreMenu"></app-states-menu>
+        <template is="states-template" target="#side">
+          <states-menu ignoreAttr="ignoreMenu"></states-menu>
         </template>
 
-        <template is="state-view" target="#main" bindModel="{{ {Hi:12}  }}">
+        <template is="states-template" target="#main" bindModel="{{ {Hi:12}  }}">
           <home-page Hi="{{ Hi }}"></home-page>
         </template>
 
-        <app-state id="articles" urlPostfix="articles" header="Articles" bindModelAs="data" bindModel="{{ articles }}"  childStates="article-states">
-          <template is="state-view" target="#main">
+        <app-state id="articles" urlPostfix="articles" header="Articles Demo" bindModelAs="data" bindModel="{{ articles }}" childStates="article-states">
+          <template is="states-template" target="#main">
             <articles-home articles="{{ data }}"></articles-home>
           </template>
         </app-state>
 
-        <app-state id="account" header="Account" childStates="account-states">
-          <template is="state-view" target="#main">
-              <account-home></account-home>
+        <app-state id="account" header="Account Demo" childStates="account-states">
+          <template is="states-template" target="#main">
+            <account-home></account-home>
           </template>
 
-          <template is="state-view" target="#navheader-toolbar" class="account">
-              <h2>{{ model.stateManager.id }}</h2>
+          <template is="states-template" target="#navheader-toolbar" class="account">
+            <h2>{{ model.stateManager.id }}</h2>
 
-              <br>
-              <span>Call ...</span>
+            <br>
+            <span>Call ...</span>
           </template>
         </app-state>
 
+        <app-state id="documentation" header="Documentation" target="#main" el="documentation-home">
+          <app-state id="components-overview" header="Packages & Components" target="#main"></app-state>
+          <app-state id="work-with-state-manager" header="Using state manager" target="#main"></app-state>
+          <app-state id="define-states" header="Defining states" target="#main"></app-state>
+          <app-state id="work-with-state-templates" header="Working with templates" target="#main"></app-state>
+          <app-state id="work-with-page-sections" header="Creating page sections" target="#main"></app-state>
+          <app-state id="work-with-ui-components" header="Using UI components" target="#main"></app-state>
+
+
+
+
+        </app-state>
+
         <app-state url="*" ignoreMenu header="Not Found">
-          <template is="state-view" target="#main">
+          <template is="states-template" target="#main">
             <n404-page></n404-page>
           </template>
         </app-state>
       </app-state>
-    </app-state-manager>
+    </app-states>
 
 
     <core-drawer-panel id="drawerPanel" narrow="{{narrow}}">
       <core-header-panel mode="scroll" drawer>
         <core-toolbar id="navheader" class="medium-tall" layout vertical>
-
-          <place-holder id="navheader-toolbar"></place-holder>
+          <section id="navheader-toolbar" is="states-section"></section>
         </core-toolbar>
         <core-menu excludedLocalNames="div">
           <core-item active icon="home" label="HOME">
@@ -62,13 +74,12 @@
           <div class="separator"></div>
         </core-menu>
 
-        <place-holder id="side" flex>
-        </place-holder>
+        <section id="side" is="states-section" flex>
+        </section>
       </core-header-panel>
 
       <core-scroll-header-panel id="scrollheader" main condenses keepCondensedHeader>
         <core-toolbar id="mainheader" class="tall {{ {'core-narrow': narrow, 'selected-threads': selectedThreads.length} | tokenList }}">
-
 
           <paper-icon-button id="navicon" icon="menu" core-drawer-toggle></paper-icon-button>
           <div flex></div>
@@ -80,8 +91,9 @@
           </paper-button>
 
         </core-toolbar>
-        <place-holder id="main">
-        </place-holder>
+
+        <section is="states-section" id="main">
+        </section>
 
       </core-scroll-header-panel>
     </core-drawer-panel>

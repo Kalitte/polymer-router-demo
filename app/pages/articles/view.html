@@ -6,7 +6,7 @@
       <div content>
         <p>{{article.content}}</p>
 
-        <h3><a is="app-states-anchor" stateId="share-article-sate" params="{{ {articleId: articleId}  }}">Share Article?</a></h3>
+        <h3><a is="states-anchor" stateId="share-article-sate" params="{{ {articleId: articleId}  }}">Share Article?</a></h3>
         <place-holder id="share-article-holder">
         </place-holder>
       </div>
@@ -35,8 +35,8 @@
       back: function() {
         this.$.dialog.close();
         this.async(function() {
-          var state = window.AppStates.manager.getStateById('articles');
-          window.AppStates.manager.go(state.buildUrl());
+          var state = window.AppStates.getStateById('articles');
+          window.AppStates.go(state.buildUrl());
 
         });
       },

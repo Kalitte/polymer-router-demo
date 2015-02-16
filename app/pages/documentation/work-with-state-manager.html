@@ -1,0 +1,111 @@
+<polymer-element name="work-with-state-manager" noscript>
+  <template>
+    <div content>
+      <mark-down>
+        # Working with state manager
+
+        State manager is represented by the app-states element. State manager is responsible for
+
+        - Keeping a list of available application states.
+        - Listening to url changes and matching the state corresponding to active url.
+        - Providing helper methods, i.e. going to a state, getting a state by id etc.
+        - If not provided, automatically creating url's based on id values of states.
+
+        ## Getting state manager instance
+        Every application should have only one state manager instance. The first instance will be the default instance.
+
+        To get a reference to state manager instance use `window.AppStates.getInstance` method.
+
+        ## Creating state manager
+        To create a state manager use `app-states` element. Inside app-states just declare states.
+
+        ```html
+
+        &lt;section id=&quot;nav&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+        &lt;section id=&quot;page&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+
+          &lt;app-states&gt;
+          &lt;app-state id=&quot;home&quot; url=&quot;/&quot;&gt;
+            &lt;template target=&quot;#nav&quot; is=&quot;states-template&quot;&gt;
+              &lt;!-- When url is / load this content into #nav --&gt;
+            &lt;/template&gt;
+
+            &lt;template target=&quot;#page&quot; is=&quot;states-template&quot;&gt;
+              &lt;!-- When url is / load this content into #page --&gt;
+            &lt;/template&gt;
+
+            &lt;app-state id=&quot;login&quot;&gt;
+              &lt;template target=&quot;#page&quot; is=&quot;states-template&quot;&gt;
+                &lt;!-- When url is /login load this content into #page --&gt;
+              &lt;/template&gt;
+              &lt;!-- Inherit #nav content from home --&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+        ## Common usage scenarios
+
+        This section summarizes common state manager methods you will probably use in your applications.
+
+        ### Matching url value to a state
+
+        Use matchState method to get a state instance for a given url value.
+
+        ```javascript
+        Polymer.whenReady(function() {
+          var instance = document.getElementById('stateManager');
+          // or use AppStates.getInstance().matchState
+          // or use AppStates.matchState
+
+          var state = instance.matchState('#/login');
+          console.log(state.id);
+          // login
+        });
+        ```
+
+        You can customize matching state process by adding an event handler for `state-match` event.
+
+        ```javascript
+        instance.addEventListener('state-match', function(e) {
+          // e.detail.match holds the reference to matched state.
+          // If you set a value state manager will use that value as state.
+          // null value means a state is not matched.
+        });
+        ```
+        ### Getting state reference by id
+
+        Use `getStateById` method to get a reference to state identified by the `id` value.
+
+        ```javascript
+        var loginState = instance.getStateById('login');
+        console.log(loginState.url);
+        ```
+
+        ### Changing browser URL
+
+        Use `go` method to navigate to an url. `go` method changes the url of the browser so that url listener can navigate to
+        a state. Please note this method is asynchronous and does not navigate to a state immidiately.
+
+        ```javascript
+        if (instance.currentState.id !== 'login')
+          instance.go('/login');
+        ```
+        When url is changed
+
+        - `url-change` event is fired. This event is cancelable.
+        - State manager calls `matchState` method and tries to get a valid state.
+        - `state-changing` event is fired. This event is cancelable.
+        - If a valid state is matched, state manager tries to load state.
+        - After loading new state `state-changed` event is fired, oldState and currentState properties are updated.
+
+        ### Getting root state
+
+        Use `getRootState` method to get a reference to root state.
+
+
+      </mark-down>
+
+
+    </div>
+  </template>
+</polymer-element>

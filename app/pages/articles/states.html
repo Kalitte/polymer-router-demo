@@ -1,13 +1,13 @@
 <polymer-element name="article-states" noscript>
   <template>
     <app-state id="view-article-sate" ignoreMenu header="View Article" urlPostfix=":articleId/view">
-      <template is="state-view" target="#manage-article-holder">
+      <template is="states-template" target="#manage-article-holder">
         <articles-view articleId="{{ urlParams.articleId }}" articles="{{ data }}"></articles-view>
 
         </template>
 
         <app-state id="share-article-sate" header="Share Article" urlPostfix="share">
-          <template is="state-view" target="#share-article-holder">
+          <template is="states-template" target="#share-article-holder">
             <articles-share></articles-share>
             </template>
         </app-state>
@@ -15,8 +15,8 @@
     </app-state>
 
     <app-state id="edit-article-sate" ignoreMenu header="Edit Article" urlPostfix=":articleId/edit">
-      <template is="state-view" target="#manage-article-holder">
-        <articles-edit></articles-edit>
+      <template is="states-template" target="#manage-article-holder">
+        <articles-edit articleId="{{ urlParams.articleId }}" articles="{{ data }}"></articles-edit>
         </template>
     </app-state>
 

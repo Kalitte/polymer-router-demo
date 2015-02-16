@@ -1,6 +1,6 @@
-<polymer-element name="articles-edit">
+<polymer-element name="articles-edit" attributes="articleId articles">
   <template>
-    <paper-action-dialog id="dialog" heading="Edit article {{article.id}}" transition="core-transition-top" style="background-color: #fff;width:90%" layered="false" autoCloseDisabled>
+    <paper-action-dialog id="dialog" heading="Edit article {{articleId}}" transition="core-transition-top" style="background-color: #fff;width:90%" layered="false" autoCloseDisabled>
       <form>
         <paper-input-decorator label="Title">
             <input is="core-input" value="{{article.title}}"/>
@@ -13,11 +13,11 @@
     </form>
 
     <div>
-    <h3>Do you want to login so that changes will be persisted ? <a is="app-states-anchor" stateId="signin">Click to login!</a></h3>
+    <h3>Do you want to login so that changes will be persisted ? <a is="states-anchor" stateId="signin">Click to login!</a></h3>
     </div>
 
     <paper-button dismissive  on-tap="{{back}}">Dismiss</paper-button>
-      <paper-button affirmative autofocus on-tap="{{save}}">Save</paper-button>
+    <paper-button affirmative autofocus on-tap="{{save}}">Save</paper-button>
 
     </paper-action-dialog>
 
@@ -27,24 +27,35 @@
   <script>
     Polymer({
 
-      observe: {
-        'urlParams.articleId': 'getArticle'
-      },
-
       save: function() {
+        var article = this.articles.filter(function(article) {
+          return article.id === this.articleId;
+        }.bind(this))[0];
+
+        Polymer.mixin(article, this.article);
+
         this.$.dialog.close();
         this.async(function() {
-          var state = window.AppStates.manager.getStateById('articles');
-          window.AppStates.manager.go(state.buildUrl());
+          var state = window.AppStates.getStateById('articles');
+          window.AppStates.go(state.buildUrl());
 
         });
+      },
+
+      articleIdChanged: function() {
+        if (!this.articleId)
+          return;
+        var article = this.articles.filter(function(article) {
+          return article.id === this.articleId;
+        }.bind(this))[0];
+        this.article = Polymer.mixin({}, article);
       },
 
       back: function() {
         this.$.dialog.close();
         this.async(function() {
-          var state = window.AppStates.manager.getStateById('articles');
-          window.AppStates.manager.go(state.buildUrl());
+          var state = window.AppStates.getStateById('articles');
+          window.AppStates.go(state.buildUrl());
 
         });
       },
@@ -53,18 +64,9 @@
         this.$.dialog.open();
       },
 
-      detached: function() {
-        //this.$.dialog.close();
-      },
 
       openDialog: function() {
         this.$.dialog.open();
-      },
-
-      getArticle: function() {
-        var article = this.article = this.model.filter(function(article) {
-          return article.id === this.urlParams.articleId;
-        }.bind(this))[0];
       }
     });
   </script>

@@ -51,6 +51,7 @@ gulp.task('sass-dev', function() {
 });
 
 
+
 gulp.task('sass-publish', function() {
   gulp.src(['app/scss/*.scss'])
     .pipe(sass())
@@ -65,13 +66,15 @@ gulp.task('css-publish', function() {
 });
 
 gulp.task('vendor', function() {
-  gulp.src(['app/components/webcomponentsjs/webcomponents.js',
-    'app/components/polymer/polymer.js',
-    'app/components/core-focusable/polymer-mixin.js',
-    'app/components/core-focusable/core-focusable.js',
-    'app/components/web-animations-js/web-animations-next-lite.min.js',
-    'app/components/app-states-ui/app-states-ui.js',
-    'app/components/app-states/app-states.js'
+  gulp.src(['app/bower_components/webcomponentsjs/webcomponents.js',
+    'app/bower_components/polymer/polymer.js',
+    'app/bower_components/core-focusable/polymer-mixin.js',
+    'app/bower_components/core-focusable/core-focusable.js',
+    'app/bower_components/web-animations-js/web-animations-next-lite.min.js',
+    'app/bower_components/app-states-ui/app-states-ui.js',
+    'app/bower_components/app-states/app-states.js',
+    'app/bower_components/app-states/core.js',
+    'app/bower_components/marked/lib/marked.js',
   ], {
     base: './app'
   })

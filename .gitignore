@@ -1,5 +1,5 @@
 node_modules
-app/components
+app/bower_components
 .DS_Store
 vulcanized*
 npm-debug.log

@@ -1,17 +1,17 @@
 <polymer-element name="account-states" noscript>
   <template>
     <app-state id="signin" forceReload header="Login">
-      <template is="state-view" target="#login-holder">
+      <template is="states-template" target="#login-holder">
         <account-signin></account-signin>
       </template>
     </app-state>
 
     <app-state id="reset-password" header="Reset Password">
-      <template is="state-view" target="#reset-password-holder">
+      <template is="states-template" target="#reset-password-holder">
         <reset-password></reset-password>
       </template>
       <app-state id="show-phone-numbers-state" urlPostfix="show-phone-numbers" header="Reset Password">
-        <template is="state-view" target="#phone-numbers">
+        <template is="states-template" target="#phone-numbers">
           <phone-numbers></phone-numbers>
         </template>
       </app-state>
