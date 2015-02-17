@@ -13,7 +13,7 @@
         ## Creating state sections
 
         State sections are simply place holders for html content. When a new state is activated, state
-        templates generates new content and uses state sections to put  content to the correct place
+        templates generate new content and uses state sections to put content to the correct place
         inside page.
 
         Every state section should have a unique id so that templates can reference them.
@@ -116,11 +116,11 @@
 
         For the above code snippet, if url is /articles/12/view;
 
-        - state with id `view` is matched. app-states checks if parent state of `view`, that's `articles` state is loaded.
-        - app-states tries to load articles state. Since parent state `home` is not loaded, app-states tries to load `home`
+        - state with id `view` is matched. app-states checks if parent state of `view` state, that's `articles` state is loaded.
+        - app-states tries to load articles state. Since parent state `home` is not loaded, app-states tries to load `home` first.
         - Loading `home` state starts. app-states engine gets templates which are direct children of `home` state.
         - Three templates are examined and only the content for the template associated with `#nav` section is generated. This is because
-        app-states also analysis child states of `home` and finds that other two templates will be created for those child states.
+        app-states also analysis child states of `home` and finds that other two templates will generate content for those child states.
         - Loading of state with id `articles` begin. Only the content for the template associated with `#right` section is generated.
         - Loading of state with id `view` begins, content is generated for `#page`.
 

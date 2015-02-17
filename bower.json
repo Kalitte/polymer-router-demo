@@ -18,6 +18,7 @@
     "paper-elements": "Polymer/paper-elements#~0.5.4",
     "core-elements": "Polymer/core-elements#~0.5.4",
     "webcomponentsjs": "~0.5.4",
-    "marked": "~0.3.3"
+    "marked": "~0.3.3",
+    "js-beautify": "~1.5.4"
   }
 }

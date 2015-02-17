@@ -201,7 +201,7 @@ body {
 
 .app /deep/ pre code {
 
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 
   display: block;
 
@@ -215,7 +215,7 @@ body {
 
   line-height: 1.45;
 
-  background-color: #e6e6e6;
+  background-color: #eee;
 
   border-radius: 3px;
 
@@ -223,7 +223,7 @@ body {
 
 .app /deep/ code {
   font-size: 110%;
-  background-color: #e6e6e6;
+  background-color: #eee;
   padding:2px;
 
 }

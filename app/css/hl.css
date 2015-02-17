@@ -1,6 +1,5 @@
-/*
 
-github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+Google Code style (c) Aahan Krish <geekpanth3r@gmail.com>
 
 */
 
@@ -8,119 +7,140 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  color: #333;
-  background: #f8f8f8;
+  background: white;
+  color: black;
   -webkit-text-size-adjust: none;
-  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  
 }
 
 .app /deep/ .hljs-comment,
-.diff .app /deep/ .hljs-header,
 .app /deep/ .hljs-javadoc {
-  color: #998;
-  font-style: italic;
+  color: #800;
 }
 
 .app /deep/ .hljs-keyword,
-.css .rule .app /deep/ .hljs-keyword,
+.app /deep/ .method,
+.app /deep/ .hljs-list .hljs-keyword,
+.app /deep/ .nginx .hljs-title,
+.app /deep/ .hljs-tag .hljs-title,
+.app /deep/ .setting .hljs-value,
 .app /deep/ .hljs-winutils,
-.nginx .app /deep/ .hljs-title,
-.app /deep/ .hljs-subst,
+.app /deep/ .tex .hljs-command,
+.app /deep/ .http .hljs-title,
 .app /deep/ .hljs-request,
 .app /deep/ .hljs-status {
-  color: #333;
-  font-weight: bold;
+  color: #008;
 }
 
-.app /deep/ .hljs-number,
-.app /deep/ .hljs-hexcolor,
-.ruby .app /deep/ .hljs-constant {
-  color: #008080;
+.app /deep/ .hljs-envvar,
+.app /deep/ .tex .hljs-special {
+  color: #660;
 }
 
 .app /deep/ .hljs-string,
-.app /deep/ .hljs-tag .app /deep/ .hljs-value,
+.app /deep/ .hljs-tag .hljs-value,
+.app /deep/ .hljs-cdata,
+.app /deep/ .hljs-filter .hljs-argument,
+.app /deep/ .hljs-attr_selector,
+.app /deep/ .apache .hljs-cbracket,
+.app /deep/ .hljs-date,
+.app /deep/ .hljs-regexp,
+.app /deep/ .coffeescript .hljs-attribute {
+  color: #080;
+}
+
+.app /deep/ .hljs-sub .hljs-identifier,
+.app /deep/ .hljs-pi,
+.app /deep/ .hljs-tag,
+.app /deep/ .hljs-tag .hljs-keyword,
+.app /deep/ .hljs-decorator,
+.app /deep/ .ini .hljs-title,
+.app /deep/ .hljs-shebang,
+.app /deep/ .hljs-prompt,
+.app /deep/ .hljs-hexcolor,
+.app /deep/ .hljs-rules .hljs-value,
+.app /deep/ .hljs-literal,
+.app /deep/ .hljs-symbol,
+.app /deep/ .ruby .hljs-symbol .hljs-string,
+.app /deep/ .hljs-number,
+.app /deep/ .css .hljs-function,
+.app /deep/ .clojure .hljs-attribute {
+  color: #066;
+}
+
+.app /deep/ .hljs-class .hljs-title,
+.app /deep/ .smalltalk .hljs-class,
+.app /deep/ .hljs-javadoctag,
+.app /deep/ .hljs-yardoctag,
 .app /deep/ .hljs-phpdoc,
 .app /deep/ .hljs-dartdoc,
-.tex .app /deep/ .hljs-formula {
-  color: #d14;
-}
-
-.app /deep/ .hljs-title,
-.app /deep/ .hljs-id,
-.scss .app /deep/ .hljs-preprocessor {
-  color: #900;
-  font-weight: bold;
-}
-
-.app /deep/ .hljs-list .app /deep/ .hljs-keyword,
-.app /deep/ .hljs-subst {
-  font-weight: normal;
-}
-
-.app /deep/ .hljs-class .app /deep/ .hljs-title,
 .app /deep/ .hljs-type,
-.vhdl .app /deep/ .hljs-literal,
-.tex .app /deep/ .hljs-command {
-  color: #458;
+.app /deep/ .hljs-typename,
+.app /deep/ .hljs-tag .hljs-attribute,
+.app /deep/ .hljs-doctype,
+.app /deep/ .hljs-class .hljs-id,
+.app /deep/ .hljs-built_in,
+.app /deep/ .setting,
+.app /deep/ .hljs-params,
+.app /deep/ .hljs-variable {
+  color: #606;
+}
+
+.app /deep/ .css .hljs-tag,
+.app /deep/ .hljs-rules .hljs-property,
+.app /deep/ .hljs-pseudo,
+.app /deep/ .hljs-subst {
+  color: #000;
+}
+
+.app /deep/ .css .hljs-class,
+.app /deep/ .css .hljs-id {
+  color: #9b703f;
+}
+
+.app /deep/ .hljs-value .hljs-important {
+  color: #ff7700;
   font-weight: bold;
 }
 
-.app /deep/ .hljs-tag,
-.app /deep/ .hljs-tag .app /deep/ .hljs-title,
-.app /deep/ .hljs-rules .app /deep/ .hljs-property,
-.django .app /deep/ .hljs-tag .app /deep/ .hljs-keyword {
-  color: #000080;
-  font-weight: normal;
+.app /deep/ .hljs-rules .hljs-keyword {
+  color: #c5af75;
 }
 
-.app /deep/ .hljs-attribute,
-.app /deep/ .hljs-variable,
-.lisp .app /deep/ .hljs-body {
-  color: #008080;
-}
-
-.app /deep/ .hljs-regexp {
-  color: #009926;
-}
-
-.app /deep/ .hljs-symbol,
-.ruby .app /deep/ .hljs-symbol .app /deep/ .hljs-string,
-.lisp .app /deep/ .hljs-keyword,
-.clojure .app /deep/ .hljs-keyword,
-.scheme .app /deep/ .hljs-keyword,
-.tex .app /deep/ .hljs-special,
-.app /deep/ .hljs-prompt {
-  color: #990073;
-}
-
-.app /deep/ .hljs-built_in {
-  color: #0086b3;
+.app /deep/ .hljs-annotation,
+.app /deep/ .apache .hljs-sqbracket,
+.app /deep/ .nginx .hljs-built_in {
+  color: #9b859d;
 }
 
 .app /deep/ .hljs-preprocessor,
-.app /deep/ .hljs-pragma,
-.app /deep/ .hljs-pi,
-.app /deep/ .hljs-doctype,
-.app /deep/ .hljs-shebang,
-.app /deep/ .hljs-cdata {
-  color: #999;
+.app /deep/ .hljs-preprocessor *,
+.app /deep/ .hljs-pragma {
+  color: #444;
+}
+
+.app /deep/ .tex .hljs-formula {
+  background-color: #eee;
+  font-style: italic;
+}
+
+.app /deep/ .diff .hljs-header,
+.app /deep/ .hljs-chunk {
+  color: #808080;
   font-weight: bold;
 }
 
-.app /deep/ .hljs-deletion {
-  background: #fdd;
+.diff .hljs-change {
+  background-color: #bccff9;
 }
 
-.app /deep/ .hljs-addition {
-  background: #dfd;
+.hljs-addition {
+  background-color: #baeeba;
 }
 
-.diff .app /deep/ .hljs-change {
-  background: #0086b3;
+.hljs-deletion {
+  background-color: #ffc8bd;
 }
 
-.app /deep/ .hljs-chunk {
-  color: #aaa;
+.app /deep/ .hljs-comment .hljs-yardoctag {
+  font-weight: bold;
 }

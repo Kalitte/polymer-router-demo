@@ -1,5 +1,9 @@
 <script src='../../bower_components/marked/lib/marked.js'></script>
+<script src='../../bower_components/js-beautify/js/lib/beautify-html.js'></script>
+<script src='../../bower_components/js-beautify/js/lib/beautify.js'></script>
 <script src='./highlight.pack.js'></script>
+
+jsbeautifier.beautify('your javascript string')
 
 <polymer-element name="mark-down" attributes="text">
   <template>
@@ -18,8 +22,10 @@
         hljs.initHighlighting();
         marked.setOptions({
           highlight: function(code, lang) {
-            if (lang)
-              return hljs.highlight(lang, code).value;
+            if (lang) {
+              var beautified = html_beautify(code);
+              return hljs.highlight(lang, beautified).value;
+            }
             else return code;
           }
         });

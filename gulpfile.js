@@ -75,7 +75,9 @@ gulp.task('vendor', function() {
     'app/bower_components/app-states/app-states.js',
     'app/bower_components/app-states/core.js',
     'app/bower_components/marked/lib/marked.js',
-    'app/elements/mark-down/highlight.pack.js'
+    'app/elements/mark-down/highlight.pack.js',
+    'app/bower_components/js-beautify/js/lib/beautify-html.js',
+    'app/bower_components/js-beautify/js/lib/beautify.js'
   ], {
     base: './app'
   })
