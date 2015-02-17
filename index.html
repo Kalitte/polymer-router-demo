@@ -225,7 +225,7 @@
 
       ## Configuration
 
-      app-states uses the Polymer library. Make sure you have [webcomponents.js](http://webcomponents.org/polyfills/) and [polymer.html](https://www.polymer-project.org/) included in your page.
+      app-states uses Polymer library. Make sure you have [webcomponents.js](http://webcomponents.org/polyfills/) and [polymer.html](https://www.polymer-project.org/) included in your page.
 
 
         ```html
@@ -277,8 +277,8 @@
       </mark-down></div><div content=""></div></template></polymer-element><polymer-element name="components-overview" assetpath="pages/documentation/"><template><div content=""><mark-down>
         # Packages &amp; Components
 
-        We have two seperate packages, core app-states library and user interface components.
-        Both packages use the Polymer. Make sure you have [webcomponents.js](http://webcomponents.org/polyfills/) and [polymer.html](https://www.polymer-project.org/) included in your page.
+        We have two seperate packages, core app states library (app-states) and user interface components (app-states-ui).
+        Since both packages have dependencies to Polymer make sure you have [webcomponents.js](http://webcomponents.org/polyfills/) and [polymer.html](https://www.polymer-project.org/) included in your page.
 
         ## app-states
 
@@ -295,16 +295,16 @@
 
         | Web Component | Description
         | ------------- |:-------------
-        | app-states     | Container component for application states.
+        | app-states     | Container and manager component for application states.
         | app-state      | Use to declare an application state.
-        | states-template| HTML template element modifier. Use to set content for a specifit state.
+        | states-template| HTML template element modifier. Use to set content for a specific state.
         | states-section | HTML section element modifier. Use to declare updatable page sesction.
-        | place-holder   | Similar to states-section except you can use it without section element.
+        | place-holder   | Similar to states-section except you can use it directly without section element.
 
         ## app-states-ui
 
-        app-states-ui provides user interface components. These components can be considered as
-        helper components to simplify application state management and are optional.
+        app-states-ui provides user interface components. These components are optional and can be
+        considered as helper elements to simplify application development.
 
         You can [download](https://github.com/Kalitte/app-states-ui) or
         run `bower install app-states-ui --save` to install.
@@ -319,16 +319,12 @@
         | Web Component | Description
         | ------------- |:-------------
         | states-menu     | Uses core-menu and core-submenu component to create a dynamic menu using application states.
-        | states-anchor   | HTML anchor modifier. Sets url attribute of anchor based on stateId arrtibute.
-
-
-
-
+        | states-anchor   | HTML anchor modifier. Automatically sets href attribute of an anchor based on stateId arrtibute.
       </mark-down></div></template></polymer-element><polymer-element name="define-states" assetpath="pages/documentation/"><template><div content=""><mark-down>
         # Using Application States
-        app-state component is responsible for managing application state.
+        app-state component is responsible for managing application states.
 
-        To declare an application state for an url insert an app-state tag inside
+        To declare a state for an URL insert an app-state tag inside
         state manager.
 
         ```html
@@ -339,15 +335,15 @@
         &lt;/template&gt;
         ...
         ```
-        First child of state manager is the root state and other states should be children
-        of root state.
+        First child of state manager is the root state and all other states are children
+        of this state.
 
-        As an overview, when url changes;
+        As an overview, when browser URL changes state manages does the following;
 
-        - State manager locates a state object corresponding to the active url.
-        - State initializes an object which will be used as a model for the state and it's children.
-        - State gets a list of states-template elements.
-        - State creates instances using templates and places them into the associated place-holder or state-section elements.
+        - Locates a state object corresponding to the url.
+        - State gets a list of [states-template](#/documentation/work-with-state-templates) elements.
+        - State creates as many as contents dynamically and places them into the associated
+        [place-holder](#/documentation/work-with-state-templates) or [state-section](#/documentation/work-with-state-templates) elements.
 
         ## Associating URL's with states.
 
@@ -366,8 +362,8 @@
         &lt;/app-states&gt;
         ```
 
-        If you don't specify `url` attribute `id` is used for generating url. Below code snippet demonstrates
-        usign `url` attribute.
+        If you don't specify `url` attribute `id` attribute is used for automatic URL generation.
+        Below code snippet demonstrates usign `url` attribute.
 
         ```html
         &lt;app-states id="stateManager"&gt;
@@ -380,8 +376,8 @@
         &lt;/app-states&gt;
         ```
 
-        As a last alternative you can also use `urlPostfix` attribute. This is the best option if you don't want
-        to use `id` or absolute `url` values.
+        As a last alternative you can also use `urlPostfix` attribute.
+        This is the best option if you don't want to use `id` or absolute `url` values.
 
 
         ```html
@@ -397,7 +393,7 @@
 
         ### URL parameters
         URL parameters (or variables) allow to define URL attributes as templates and extracting variable
-        values from the browser URL based on that template.
+        values from the actual URL based on that template.
 
         ```html
         &lt;app-states id="stateManager"&gt;
@@ -414,15 +410,15 @@
           &lt;/app-state&gt;
         &lt;/app-states&gt;
         ```
-        To define a URL paramater use `:` before the parameter name. State manager will handle matching actual URL
-        value to the template and extracting paramater names and values.
+        To define a URL parameter use `:` before the parameter name. State manager will handle matching actual URL
+        value to the template and extracting parameter names and values.
 
         ### Using regular expressions
         If you add `regexp` attribute to an `app-state` element, `url` value is considered to be a regular expression and
         state matching is done using this regular expression.
 
         ## Nested states
-        app-states supports nested states. Nested states allows sharing and customizing state model
+        app-states supports nested states. Nested states allow sharing and customizing state model
         between parent state and its children.
 
         In an app-states application there is only one instance of state manager and state manager should
@@ -455,8 +451,8 @@
         ```
 
         Another alternative is using `childStates` attribute of `app-state` component.
-        This allows you to declare child states inside another element which is generally located inside a different file.
-        This is usefull if you have many states and don't mixup all states in same element.
+        This allows you to declare child states inside another element which is generally located inside
+        a different file. This is usefull if you have many states and don't mixup all states in same element.
 
         ```html
         &lt;!-- app.html --&gt;
@@ -485,9 +481,10 @@
       </mark-down></div></template></polymer-element><polymer-element name="work-with-data-binding" assetpath="pages/documentation/"><template><div content=""><mark-down>
         # Data binding and state model
 
-        When a new state is loaded app-states creates a model object for that state.
+        When a new state is loaded app-states initializes a new model object for the state.
 
-        Model is reponsible
+        Model is reponsible for;
+
         - Providing url parameter names and values,
         - Providing state instance,
         - Providing a custom object
@@ -495,10 +492,10 @@
         to the owner and the children of owner state.
 
         Every state creates a new instance which inherits from the model object of parent state.
-        By default model instance is empty i.e. doesnot have any properties.
+        By default, model instance is empty i.e. doesnot have any properties.
 
         ## Binding to URL parameters and State instance
-        To add URL parameters and state instance use `bindUrlParams` and `bindState` attributes.
+        To add URL parameters and state instance use `bindUrlParams` and `bindState` attributes respectively.
 
         ```html
         &lt;body unresolved&gt;
@@ -544,8 +541,8 @@
           &lt;my-app&gt;&lt;/my-app&gt;
         &lt;/body&gt;
         ```
-        Note that adding these attributes for home state is enough since other states inherites the model
-        object of home state since they are children of home.
+        Note that adding these attributes for home state is enough since other states inherit the model
+        object of home state.
 
         You can customize property names for url parameters and state by setting values for attributes.
 
@@ -585,8 +582,7 @@
           &lt;/template&gt;
         ```
 
-        If a state has `bindModel` attribute, app-states creates a property named `model` on the state model object and sets its value to the attribute value.
-
+        If a state has `bindModel` attribute, app-states creates a property named `model` inside the state model object and sets its value to the evaluated attribute value.
 
         You can change property name using `bindModelAs` attribute.
 
@@ -597,8 +593,8 @@
           &lt;/template&gt;
           ```
 
-        If you add `bindModelAs` attribute to a state without specifying a value and bind an object, app-states copies
-        property names to the model.
+        If you add `bindModelAs` attribute to a state without specifying a value and bind an object, app-states mixes
+        property names with the model.
 
         ```html
         &lt;app-state id="articles" bindModel="{{'\{{myModel}\}'}}" bindModelAs=""&gt;
@@ -608,10 +604,10 @@
           &lt;/template&gt;
         ```
         ## Using bindAs attribute
-        `bindAs` attribute allows you to create a namespace for the model. This is very useful if you
+        `bindAs` attribute allows you to create a namespace for the model. This is useful if you
         want to share whole state model with one binding.
 
-        Consider tthe updated `article-view` element.
+        Consider the updated `article-view` element.
 
         ```html
         &lt;polymer-element name="article-list" attributes="stateModel" noscript&gt;
@@ -642,7 +638,7 @@
 
         ## Model inheritance and template models
 
-        Model inheritance allows you to share common data between states but also customize the model for a state.
+        Model inheritance allows you to share common data between states but also customize the model for a specific state.
 
         ```html
         &lt;polymer-element name="my-app"&gt;
@@ -695,20 +691,22 @@
       </mark-down></div></template></polymer-element><polymer-element name="work-with-state-manager" assetpath="pages/documentation/"><template><div content=""><mark-down>
         # Working with state manager
 
-        State manager is represented by the app-states element. State manager is responsible for
+        State manager is represented by the app-states element. State manager is responsible for;
 
         - Keeping a list of available application states.
-        - Listening to url changes and matching the state corresponding to active url.
+        - Listening to URL changes and matching the state corresponding to active url.
         - Providing helper methods, i.e. going to a state, getting a state by id etc.
         - If not provided, automatically creating url's based on id values of states.
 
         ## Getting state manager instance
-        Every application should have only one state manager instance. The first instance will be the default instance.
+        Every application should have only one state manager instance.
+        The first instance will be the default instance.
 
         To get a reference to state manager instance use `window.AppStates.getInstance` method.
 
         ## Creating state manager
-        To create a state manager use `app-states` element. Inside app-states just declare states.
+        To create a state manager use `app-states` element. Inside app-states just declare states using
+        `app-state` element.
 
         ```html
 
@@ -736,11 +734,11 @@
         ```
         ## Common usage scenarios
 
-        This section summarizes common state manager methods you will probably use in your applications.
+        This section summarizes common state manager methods you will probably need to use in your applications.
 
         ### Matching url value to a state
 
-        Use matchState method to get a state instance for a given url value.
+        Use `matchState` method to get a state instance for a given URL value.
 
         ```javascript
         Polymer.whenReady(function() {
@@ -800,7 +798,8 @@
         State sections and templates allow rendering content dynamically based on application state.
 
         State templates are responsible for generating content and data binding. After content is generated,
-        sections specify where to inject this content inside page. You can define as many as state templates for a state.
+        sections specify where to inject this content inside page. You can define as many as state
+        templates for a state.
 
         ## Creating state sections
 
