@@ -1,7 +1,154 @@
 <polymer-element name="work-with-state-templates" noscript>
   <template>
     <div content>
+      <mark-down>
+        # Using sections and templates
 
+        State sections and templates allow rendering content dynamically based on application state.
+
+        State templates are responsible for generating content and data binding. After content is generated,
+        sections specify where to inject this content inside page. You can define as many as state templates for a state.
+
+        ## Creating state sections
+
+        State sections are simply place holders for html content. When a new state is activated, state
+        templates generates new content and uses state sections to put  content to the correct place
+        inside page.
+
+        Every state section should have a unique id so that templates can reference them.
+
+        There are two ways to create a state section.
+
+        ### Using section element
+
+        If you want to use HTML `section` element for your content you can extend this element with `states-section`.
+
+        ```html
+        &lt;section id=&quot;nav&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+        &lt;section id=&quot;page&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+        ```
+
+        ### Using place-holder
+        Another way is using `place-holder` element. Exactly same with using sestion element.
+
+        ```html
+        &lt;place-holder id=&quot;nav&quot;&gt;&lt;/place-holder&gt;
+        ```
+
+        ### Specifying content insertion point
+
+
+        Content is inserted inside the element so new content becomes child element of the state section
+        by default.
+
+        ```html
+        &lt;place-holder id=&quot;nav&quot;&gt;
+          &lt;!-- content goes here --&gt;
+        &lt;/place-holder&gt;
+        ```
+
+        Sometimes this may not be your choice especially if you have css selector rules that doesnot match
+        if new content is inside another element. Set `nextsibling` value to `render` attribute to insert content
+        as next sibling to state section.
+
+        ```html
+        &lt;place-holder id=&quot;nav&quot; render=&quot;nextsibling&quot;&gt;&lt;/place-holder&gt;
+        &lt;!-- content goes here --&gt;
+        ```
+
+        ## Using state templates
+        To declare a state template inherit HTML template element from `state-template`.
+
+        ```html
+        &lt;!-- Define sections you want to load dynamically --&gt;
+        &lt;section id=&quot;nav&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+        &lt;section id=&quot;page&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+        &lt;section id=&quot;right&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+
+        &lt;!-- Define application states --&gt;
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+
+          &lt;app-state id=&quot;home&quot;&gt;
+            &lt;!-- when url is / load the following 3 templates into the corresponding sections --&gt;
+
+            &lt;template is=&quot;states-template&quot; target=&quot;#page&quot;&gt;
+              &lt;p&gt;Hi from home!&lt;/p&gt;
+            &lt;/template&gt;
+            &lt;template is=&quot;states-template&quot; target=&quot;#nav&quot;&gt;
+              &lt;p&gt;Hi from app navigation!&lt;/p&gt;
+            &lt;/template&gt;
+            &lt;template is=&quot;states-template&quot; target=&quot;#right&quot;&gt;
+              &lt;p&gt;Hi from your messages!&lt;/p&gt;
+            &lt;/template&gt;
+
+
+            &lt;app-state id=&quot;articles&quot;&gt;
+              &lt;!-- when url is /articles load only 2 templates --&gt;
+
+              &lt;template is=&quot;states-template&quot; target=&quot;#page&quot;&gt;
+                &lt;p&gt;Hi from articles!&lt;/p&gt;
+              &lt;/template&gt;
+
+              &lt;!-- Inherit content of #nav from parent state home --&gt;
+
+              &lt;template is=&quot;states-template&quot; target=&quot;#right&quot;&gt;
+                &lt;p&gt;Hi from your favorite articles!&lt;/p&gt;
+              &lt;/template&gt;
+
+              &lt;!-- when url is /articles:articleId/view load only 1 template --&gt;
+              &lt;app-state id=&quot;view&quot; urlPostfix=&quot;:articleId/view&quot; bindUrlParams&gt;
+
+                &lt;template is=&quot;states-template&quot; target=&quot;#page&quot;&gt;
+                &lt;p&gt;Article id is: {{urlParams.articleId}}&lt;/p&gt;
+                &lt;/template&gt;
+                &lt;!-- Inherit content of #nav from parent state home --&gt;
+                &lt;!-- Inherit content of #right from parent state articles --&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+
+        As above code snippet demonstrates `target` attribute is used to associate a template with a section.
+
+        app-states uses section content inheritance, so only required sections are updated.
+
+        For the above code snippet, if url is /articles/12/view;
+
+        - state with id `view` is matched. app-states checks if parent state of `view`, that's `articles` state is loaded.
+        - app-states tries to load articles state. Since parent state `home` is not loaded, app-states tries to load `home`
+        - Loading `home` state starts. app-states engine gets templates which are direct children of `home` state.
+        - Three templates are examined and only the content for the template associated with `#nav` section is generated. This is because
+        app-states also analysis child states of `home` and finds that other two templates will be created for those child states.
+        - Loading of state with id `articles` begin. Only the content for the template associated with `#right` section is generated.
+        - Loading of state with id `view` begins, content is generated for `#page`.
+
+        When loading a new state, model object is created for that state and inherited from the parent state's model object.
+        app-states also checks for `urlParams` and other attributes to be ensure about the state model properties.
+
+        More information about state models can be found at [data binding](#/documentation/work-with-data-binding) section.
+
+        ### Shortcut for creating a template
+        For simplicity we used text content directly inside a template. In real applications you will probably use
+        other Polymer elements which act as pages. For example;
+
+
+        ```html
+        &lt;app-state id=&quot;documentation&quot; header=&quot;Documentation&quot;&gt;
+          &lt;template is=&quot;states-template&quot;&gt;
+            &lt;documentation-home-page&gt;&lt;/documentation-home-page&gt;
+          &lt;/template&gt;
+        &lt;/app-state&gt;
+        ```
+        and you will have many child states. For just code readability youcan do the same thing with app-state attributes.
+
+        ```html
+        &lt;app-state id=&quot;documentation&quot; header=&quot;Documentation&quot; target=&quot;#main&quot; el=&quot;documentation-home&quot;&gt;&lt;/app-state&gt;
+        ```
+        if `target` attribute is set for a state, `state-template` instance automatically created with the `el` attribute.
+        If you don't specify an `el` attribute `id` attribute is used. Just a shortcut.
+
+      </mark-down>
     </div>
   </template>
 </polymer-element>

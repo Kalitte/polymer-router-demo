@@ -1,0 +1,217 @@
+<polymer-element name="work-with-data-binding" noscript>
+  <template>
+    <div content>
+      <mark-down>
+        # Data binding and state model
+
+        When a new state is loaded app-states creates a model object for that state.
+
+        Model is reponsible
+        - Providing url parameter names and values,
+        - Providing state instance,
+        - Providing a custom object
+
+        to the owner and the children of owner state.
+
+        Every state creates a new instance which inherits from the model object of parent state.
+        By default model instance is empty i.e. doesnot have any properties.
+
+        ## Binding to URL parameters and State instance
+        To add URL parameters and state instance use `bindUrlParams` and `bindState` attributes.
+
+        ```html
+        &lt;body unresolved&gt;
+          &lt;polymer-element name=&quot;my-app&quot;&gt;
+            &lt;template&gt;
+              &lt;section id=&quot;content&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+
+              &lt;app-states id=&quot;stateManager&quot;&gt;
+                &lt;app-state id=&quot;home&quot; bindUrlParams bindState&gt;
+                  &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+                    &lt;p&gt;Hi from home! State id of home is {{'\{{state.id}\}'}}&lt;/p&gt;
+                  &lt;/template&gt;
+
+                  &lt;app-state id=&quot;articles&quot;&gt;
+                    &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+                      &lt;p&gt;Hi from articles! State id of home is {{'\{{state.id}\}'}}&lt;/p&gt;
+                    &lt;/template&gt;
+
+                    &lt;app-state id=&quot;view&quot; urlPostfix=&quot;:articleId/view&quot;&gt;
+                      &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+                        State id is: {{'\{{state.id}\}'}},
+                        Article id is: {{'\{{urlParams.articleId}\}'}}
+                      &lt;/template&gt;
+                    &lt;/app-state&gt;
+                  &lt;/app-state&gt;
+                &lt;/app-state&gt;
+              &lt;/app-states&gt;
+            &lt;/template&gt;
+
+            &lt;script&gt;
+            Polymer({
+              articles: [{ title: 'foo title', owner: 'kalitte' }, {title: 'foo foo title', owner: 'me'}],
+              myModel: {
+                articles: [{ title: 'foo title', owner: 'kalitte' }, {title: 'foo foo title', owner: 'me'}],
+                listTitle: 'foo title'
+              }
+            });
+            &lt;/script&gt;
+
+          &lt;/polymer-element&gt;
+
+          &lt;!-- Application instance --&gt;
+          &lt;my-app&gt;&lt;/my-app&gt;
+        &lt;/body&gt;
+        ```
+        Note that adding these attributes for home state is enough since other states inherites the model
+        object of home state since they are children of home.
+
+        You can customize property names for url parameters and state by setting values for attributes.
+
+        ```html
+        &lt;app-state id=&quot;view&quot; urlPostfix=&quot;:articleId/view&quot; bindUrlParams=&quot;url&quot; bindState=&quot;appstate&quot;&gt;
+          &lt;template is=&quot;states-template&quot; target=&quot;#content&quot; &gt;
+            State id is:{{'\{{appstate.id}\}'}},
+            Article id is: {{'\{{url.articleId}\}'}}
+          &lt;/template&gt;
+        &lt;/app-state&gt;
+        ```
+        ## Binding to custom models
+
+        Binding to custom models allows you to share data between your application and dynamically created templates.
+
+        Consider the following Polymer element.
+
+        ```html
+        &lt;polymer-element name=&quot;article-list&quot; attributes=&quot;articles&quot; noscript&gt;
+          &lt;template&gt;
+            &lt;h2&gt;Articles&lt;/h2&gt;
+            &lt;ul&gt;
+              &lt;template repeat=&quot;{{'\{{item in articles}\}'}}&quot;&gt;
+                &lt;li&gt;{{'\{{item.title}\}'}}&lt;/li&gt;
+              &lt;/template&gt;
+            &lt;/ul&gt;
+          &lt;/template&gt;
+        &lt;/polymer-element&gt;
+        ```
+
+        and an updated version of articles state.
+
+        ```html
+        &lt;app-state id=&quot;articles&quot; bindModel=&quot;{{'\{{articles}\}'}}&quot;&gt;
+          &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+            &lt;article-list  articles=&quot;{{'\{{model}\}'}}&quot;&gt;&lt;/article-list&gt;
+          &lt;/template&gt;
+        ```
+
+        If a state has `bindModel` attribute, app-states creates a property named `model` on the state model object and sets its value to the attribute value.
+
+
+        You can change property name using `bindModelAs` attribute.
+
+        ```html
+        &lt;app-state id=&quot;articles&quot; bindModel=&quot;{{'\{{articles}\}'}}&quot; bindModelAs=&quot;data&quot;&gt;
+          &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+            &lt;article-list  articles=&quot;{{'\{{data}\}'}}&quot;&gt;&lt;/article-list&gt;
+          &lt;/template&gt;
+          ```
+
+        If you add `bindModelAs` attribute to a state without specifying a value and bind an object, app-states copies
+        property names to the model.
+
+        ```html
+        &lt;app-state id=&quot;articles&quot; bindModel=&quot;{{'\{{myModel}\}'}}&quot; bindModelAs=&quot;&quot;&gt;
+          &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+            &lt;h2&gt;{{'\{{listTitle}\}'}}&lt;/h2&gt;
+            &lt;article-list  articles=&quot;{{'\{{articles}\}'}}&quot;&gt;&lt;/article-list&gt;
+          &lt;/template&gt;
+        ```
+        ## Using bindAs attribute
+        `bindAs` attribute allows you to create a namespace for the model. This is very useful if you
+        want to share whole state model with one binding.
+
+        Consider tthe updated `article-view` element.
+
+        ```html
+        &lt;polymer-element name=&quot;article-list&quot; attributes=&quot;stateModel&quot; noscript&gt;
+          &lt;template&gt;
+            &lt;h2&gt;{{'\{{stateModel.listTitle}\}'}}&lt;/h2&gt;
+            &lt;!-- also available --&gt;
+            &lt;!-- stateModel.urlParams --&gt;
+            &lt;!-- stateModel.urlParams --&gt;
+            &lt;!-- stateModel.state --&gt;
+            &lt;ul&gt;
+            &lt;template repeat=&quot;{{'\{{item in stateModel.articles}\}'}}&quot;&gt;
+                &lt;li&gt;{{'\{{item.title}\}'}}&lt;/li&gt;
+              &lt;/template&gt;
+            &lt;/ul&gt;
+          &lt;/template&gt;
+        &lt;/polymer-element&gt;
+        ```
+        Now we have one attribute named `stateModel` for the whole thing.
+
+        Below code snippet demonstrates how to create a namespace with `bindAs` attribute.
+
+        ```html
+        &lt;app-state id=&quot;articles&quot; bindModel=&quot;{{myModel}}&quot; bindUrlParams bindState bindModelAs bindAs=&quot;globalState&quot;&gt;
+          &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+            &lt;article-list  stateModel=&quot;{{'\{{globalState}\}'}}&quot;&gt;&lt;/article-list&gt;
+          &lt;/template&gt;
+        ```
+
+        ## Model inheritance and template models
+
+        Model inheritance allows you to share common data between states but also customize the model for a state.
+
+        ```html
+        &lt;polymer-element name=&quot;my-app&quot;&gt;
+          &lt;template&gt;
+            &lt;section id=&quot;content&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+            &lt;section id=&quot;secondContent&quot; is=&quot;states-section&quot;&gt;&lt;/section&gt;
+
+            &lt;app-states id=&quot;stateManager&quot;&gt;
+              &lt;app-state id=&quot;home&quot; bindModel=&quot;{{'\{{globals}\}'}}&quot; bindModelAs&gt;
+                &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+                  &lt;p&gt;Hi from home! This is the app name: {{'\{{appName}\}'}}&lt;/p&gt;
+                &lt;/template&gt;
+
+                &lt;app-state id=&quot;articles&quot; bindModel=&quot;{{'\{{articles}\}'}}&quot; bindModelAs=&quot;articles&quot; &gt;
+                  &lt;template is=&quot;states-template&quot; target=&quot;#content&quot;&gt;
+                    &lt;p&gt;Hi from articles! This is the app name: {{'\{{appName}\}'}}&lt;/p&gt;
+                    &lt;p&gt;We also have articles with length {{'\{{articles.length}\}'}}&lt;/p&gt;
+                  &lt;/template&gt;
+
+                  &lt;template is=&quot;states-template&quot; target=&quot;#secondContent&quot; bindModel=&quot;{{'\{{favoriteArticles}\}'}}&quot; bindModelAs=&quot;favorites&quot;&gt;
+                    &lt;p&gt;Hi from articles! This is the app name: {{'\{{appName}\}'}}&lt;/p&gt;
+                    &lt;p&gt;We also have articles with length {{'\{{favorites.length}\}'}}&lt;/p&gt;
+                  &lt;/template&gt;
+
+                &lt;/app-state&gt;
+              &lt;/app-state&gt;
+            &lt;/app-states&gt;
+          &lt;/template&gt;
+
+          &lt;script&gt;
+            Polymer({
+
+              globals: {
+                appName: &#39;app-states app&#39;,
+                appVersion: &#39;1.0.0&#39;
+              },
+
+              articles: [{ title: &#39;foo title&#39;, owner: &#39;kalitte&#39; }, {title: &#39;foo foo title&#39;, owner: &#39;me&#39;}],
+              favoriteArticles: [{ title: &#39;foo title&#39;, owner: &#39;kalitte&#39; }]
+            });
+          &lt;/script&gt;
+
+        &lt;/polymer-element&gt;
+        ```
+        ## Debugging
+
+        Sometimes it may be confusing to track models especially if you use `bindAs` and `bindModelAs`.
+        To track models created by app-states, just open developer tools and watch console.
+
+      </mark-down>
+    </div>
+  </template>
+</polymer-element>

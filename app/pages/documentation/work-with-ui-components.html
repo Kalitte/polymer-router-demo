@@ -1,7 +1,51 @@
 <polymer-element name="work-with-ui-components" noscript>
   <template>
     <div content>
+      <mark-down>
+        # UI components package
 
+        app-states-ui package contains some useful UI components and expected to have more in future.
+
+        Please note this is a seperate package and you need to [download](https://github.com/Kalitte/app-states-ui)
+        or install using `bower install app-states-ui --save`.
+
+        After installing you can import library components using app-states-ui.html.
+
+        ```html
+        &lt;link rel=&quot;import&quot; href=&quot;bower_components/app-states/app-states-ui.html&quot;&gt;
+        ```
+
+        ## states-menu
+        `states-menu` automatically creates a menu using declared application states.
+
+        This application uses states menu on left side so you can consider as a demo.
+
+        By default states-menu displays all states. To ignore states you don't want to display
+        set a value for ignoreAttr of states-menu and add this as an attribute to states.
+
+        ```html
+        &lt;!-- Don&#39;t display states having ignoreMenu attribute --&gt;
+        &lt;states-menu ignoreAttr=&quot;ignoreMenu&quot;&gt;&lt;/states-menu&gt;
+        ```
+
+        ## states-anchor
+        It may be difficult to track state URL values. `states-anchor` allows you to use id value of a state
+        for an HTML annchor element.
+
+        ```html
+        &lt;a is=&quot;states-anchor&quot; stateId=&quot;share-article-sate&quot; params=&quot;{{'\{{ {articleId: articleId} }\}'}}&quot;&gt;Share Article?&lt;/a&gt;
+        ```
+
+        `params` attribute is optional and very usefull if you have URL parameters. `states-anchor` automatically extracts
+        parameters from state URL and replaces with the ones you provided with `params` attribute.
+
+        Unmatched `params` values are appended as query string to href attribute of anchor element.
+
+
+
+
+
+      </mark-down>
     </div>
   </template>
 </polymer-element>

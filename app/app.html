@@ -8,12 +8,11 @@
 
       <app-state id="root" header="Home" bindState bindUrlParams>
         <template is="states-template" target="#navheader-toolbar">
-          <span>username</span>
-          <span>{{foo}}</span>
-          </div>
+          <h2>app-states</h2>
         </template>
 
         <template is="states-template" target="#side">
+          <!-- Don't display states having ignoreMenu attribute -->
           <states-menu ignoreAttr="ignoreMenu"></states-menu>
         </template>
 
@@ -25,6 +24,9 @@
           <template is="states-template" target="#main">
             <articles-home articles="{{ data }}"></articles-home>
           </template>
+          <template is="states-template" target="#navheader-toolbar" class="account">
+            <h2>Articles</h2>
+          </template>
         </app-state>
 
         <app-state id="account" header="Account Demo" childStates="account-states">
@@ -32,20 +34,23 @@
             <account-home></account-home>
           </template>
 
-          <template is="states-template" target="#navheader-toolbar" class="account">
-            <h2>{{ model.stateManager.id }}</h2>
-
-            <br>
-            <span>Call ...</span>
+          <template is="states-template" target="#navheader-toolbar">
+            <h2>Account</h2>
           </template>
         </app-state>
 
-        <app-state id="documentation" header="Documentation" target="#main" el="documentation-home">
+        <app-state id="documentation" header="Documentation">
+          <template target="#main" el="documentation-home" is="states-template">
+            <documentation-home></documentation-home>
+          </template>
+          <template is="states-template" target="#navheader-toolbar">
+            <h2>Documentation</h2>
+          </template>
           <app-state id="components-overview" header="Packages & Components" target="#main"></app-state>
           <app-state id="work-with-state-manager" header="Using state manager" target="#main"></app-state>
           <app-state id="define-states" header="Defining states" target="#main"></app-state>
-          <app-state id="work-with-state-templates" header="Working with templates" target="#main"></app-state>
-          <app-state id="work-with-page-sections" header="Creating page sections" target="#main"></app-state>
+          <app-state id="work-with-state-templates" header="Sections & Templates" target="#main"></app-state>
+          <app-state id="work-with-data-binding" header="Data Binding" target="#main"></app-state>
           <app-state id="work-with-ui-components" header="Using UI components" target="#main"></app-state>
 
 
@@ -69,7 +74,7 @@
         </core-toolbar>
         <core-menu excludedLocalNames="div">
           <core-item active icon="home" label="HOME">
-            <a href="#/"></a>
+            <a is="states-anchor" stateId="root"></a>
           </core-item>
           <div class="separator"></div>
         </core-menu>

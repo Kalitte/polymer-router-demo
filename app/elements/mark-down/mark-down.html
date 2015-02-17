@@ -12,13 +12,15 @@
     <div id="markdown"></div>
   </template>
   <script>
-    Polymer("mark-down", {
+    Polymer('mark-down', {
       ready: function() {
         hljs.configure({tabReplace: '    '});
         hljs.initHighlighting();
         marked.setOptions({
           highlight: function(code, lang) {
-            return hljs.highlight(lang, code).value;
+            if (lang)
+              return hljs.highlight(lang, code).value;
+            else return code;
           }
         });
         var content = this.trim(this.childNodes[0].textContent);

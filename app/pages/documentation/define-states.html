@@ -1,6 +1,166 @@
 <polymer-element name="define-states" noscript>
   <template>
     <div content>
+      <mark-down>
+        # Using Application States
+        app-state component is responsible for managing application state.
+
+        To declare an application state for an url insert an app-state tag inside
+        state manager.
+
+        ```html
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+        &lt;app-state id=&quot;home&quot;&gt;
+        &lt;template target=&quot;#nav&quot; is=&quot;states-template&quot;&gt;
+          Content for home
+        &lt;/template&gt;
+        ...
+        ```
+        First child of state manager is the root state and other states should be children
+        of root state.
+
+        As an overview, when url changes;
+
+        - State manager locates a state object corresponding to the active url.
+        - State initializes an object which will be used as a model for the state and it's children.
+        - State gets a list of states-template elements.
+        - State creates instances using templates and places them into the associated place-holder or state-section elements.
+
+        ## Associating URL's with states.
+
+        There are a couple of ways to associate a state with an URL.
+
+        Consider the following;
+
+        ```html
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+          &lt;app-state id=&quot;home&quot;&gt; &lt;!-- url will be / --&gt;
+            &lt;app-state id=&quot;login&quot;&gt; &lt;!-- url will be /login --&gt;
+              &lt;app-state id=&quot;foo&quot;&gt; &lt;!-- url will be /login/foo --&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+
+        If you don't specify `url` attribute `id` is used for generating url. Below code snippet demonstrates
+        usign `url` attribute.
+
+        ```html
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+          &lt;app-state id=&quot;home&quot;&gt; &lt;!-- url will be / --&gt;
+            &lt;app-state id=&quot;login&quot; url=&quot;/account/signin&quot;&gt; &lt;!-- url will be /account/signin --&gt;
+              &lt;app-state id=&quot;foo&quot;&gt; &lt;!-- url will be /account/signin/foo --&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+
+        As a last alternative you can also use `urlPostfix` attribute. This is the best option if you don't want
+        to use `id` or absolute `url` values.
+
+
+        ```html
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+          &lt;app-state id=&quot;home&quot;&gt; &lt;!-- url will be / --&gt;
+            &lt;app-state id=&quot;login&quot;&gt; &lt;!-- url will be /login --&gt;
+              &lt;app-state id=&quot;foo&quot; urlPostfix=&quot;newuser&quot;&gt; &lt;!-- url will be /login/newuser --&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+
+        ### URL parameters
+        URL parameters (or variables) allow to define URL attributes as templates and extracting variable
+        values from the browser URL based on that template.
+
+        ```html
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+          &lt;app-state id=&quot;home&quot;&gt;
+            &lt;app-state id=&quot;articles&quot;&gt;
+              &lt;app-state id=&quot;view&quot; urlPostfix=&quot;:articleId/view&quot; bindUrlParams&gt;
+                &lt;!-- Url will be /articles/:articleId/view  --&gt;
+                &lt;!-- A sample match is /articles/12/view --&gt;
+                &lt;template is=&quot;states-template&quot; target=&quot;#page&quot;&gt;
+                Article id is: {{'\{{urlParams.articleId}\}'}}
+                &lt;/template&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+        To define a URL paramater use `:` before the parameter name. State manager will handle matching actual URL
+        value to the template and extracting paramater names and values.
+
+        ### Using regular expressions
+        If you add `regexp` attribute to an `app-state` element, `url` value is considered to be a regular expression and
+        state matching is done using this regular expression.
+
+        ## Nested states
+        app-states supports nested states. Nested states allows sharing and customizing state model
+        between parent state and its children.
+
+        In an app-states application there is only one instance of state manager and state manager should
+        have only one root state. Root state url is automatically generated as '/' if not set by `url` attribute.
+
+        Consider the following URL values;
+
+        ```
+        / [Root]
+          /articles
+            /:articleId/view
+            /:articleId/edit
+          /account
+            /login
+            /signup
+              /facebook
+              /google
+        ```
+        To create a child state declare child state inside parent state.
+
+        ```html
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+          &lt;app-state id=&quot;home&quot;&gt; &lt;!-- Root State --&gt;
+            &lt;app-state id=&quot;articles&quot;&gt; &lt;!-- Child of root state --&gt;
+              &lt;app-state id=&quot;view&quot; urlPostfix=&quot;:articleId/view&quot; bindUrlParam&gt; &lt;!-- Child of articles --&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+        ```
+
+        Another alternative is using `childStates` attribute of `app-state` component.
+        This allows you to declare child states inside another element which is generally located inside a different file.
+        This is usefull if you have many states and don't mixup all states in same element.
+
+        ```html
+        &lt;!-- app.html --&gt;
+        &lt;app-states id=&quot;stateManager&quot;&gt;
+          &lt;app-state id=&quot;home&quot;&gt;
+            &lt;!-- Use article-states element for child states --&gt;
+            &lt;app-state id=&quot;articles&quot; childElements=&quot;article-states&quot;&gt;
+            &lt;/app-state&gt;
+          &lt;/app-state&gt;
+        &lt;/app-states&gt;
+
+        &lt;!-- articles/states.html --&gt;
+        &lt;polymer-element name=&quot;article-states&quot; noscript&gt;
+          &lt;template&gt;
+            &lt;app-state id=&quot;view-article-sate&quot; header=&quot;View Article&quot; urlPostfix=&quot;:articleId/view&quot;&gt;
+              &lt;app-state id=&quot;share-article-sate&quot; header=&quot;Share Article&quot; urlPostfix=&quot;share&quot;&gt;
+              &lt;/app-state&gt;
+            &lt;/app-state&gt;
+
+            &lt;app-state id=&quot;edit-article-sate&quot; ignoreMenu header=&quot;Edit Article&quot; urlPostfix=&quot;:articleId/edit&quot;&gt;
+            &lt;/app-state&gt;
+
+          &lt;/template&gt;
+        &lt;/polymer-element&gt;
+        ```
+      </mark-down>
+
 
     </div>
   </template>
