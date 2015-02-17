@@ -5,8 +5,8 @@
       <mark-down>
         # Packages & Components
 
-        We have two seperate packages, core app-states library and user interface components.
-        Both packages use the Polymer. Make sure you have [webcomponents.js](http://webcomponents.org/polyfills/) and [polymer.html](https://www.polymer-project.org/) included in your page.
+        We have two seperate packages, core app states library (app-states) and user interface components (app-states-ui).
+        Since both packages have dependencies to Polymer make sure you have [webcomponents.js](http://webcomponents.org/polyfills/) and [polymer.html](https://www.polymer-project.org/) included in your page.
 
         ## app-states
 
@@ -23,16 +23,16 @@
 
         | Web Component | Description
         | ------------- |:-------------
-        | app-states     | Container component for application states.
+        | app-states     | Container and manager component for application states.
         | app-state      | Use to declare an application state.
-        | states-template| HTML template element modifier. Use to set content for a specifit state.
+        | states-template| HTML template element modifier. Use to set content for a specific state.
         | states-section | HTML section element modifier. Use to declare updatable page sesction.
-        | place-holder   | Similar to states-section except you can use it without section element.
+        | place-holder   | Similar to states-section except you can use it directly without section element.
 
         ## app-states-ui
 
-        app-states-ui provides user interface components. These components can be considered as
-        helper components to simplify application state management and are optional.
+        app-states-ui provides user interface components. These components are optional and can be
+        considered as helper elements to simplify application development.
 
         You can [download](https://github.com/Kalitte/app-states-ui) or
         run `bower install app-states-ui --save` to install.
@@ -47,11 +47,7 @@
         | Web Component | Description
         | ------------- |:-------------
         | states-menu     | Uses core-menu and core-submenu component to create a dynamic menu using application states.
-        | states-anchor   | HTML anchor modifier. Sets url attribute of anchor based on stateId arrtibute.
-
-
-
-
+        | states-anchor   | HTML anchor modifier. Automatically sets href attribute of an anchor based on stateId arrtibute.
       </mark-down>
     </div>
 

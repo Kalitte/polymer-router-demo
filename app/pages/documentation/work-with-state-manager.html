@@ -4,20 +4,22 @@
       <mark-down>
         # Working with state manager
 
-        State manager is represented by the app-states element. State manager is responsible for
+        State manager is represented by the app-states element. State manager is responsible for;
 
         - Keeping a list of available application states.
-        - Listening to url changes and matching the state corresponding to active url.
+        - Listening to URL changes and matching the state corresponding to active url.
         - Providing helper methods, i.e. going to a state, getting a state by id etc.
         - If not provided, automatically creating url's based on id values of states.
 
         ## Getting state manager instance
-        Every application should have only one state manager instance. The first instance will be the default instance.
+        Every application should have only one state manager instance.
+        The first instance will be the default instance.
 
         To get a reference to state manager instance use `window.AppStates.getInstance` method.
 
         ## Creating state manager
-        To create a state manager use `app-states` element. Inside app-states just declare states.
+        To create a state manager use `app-states` element. Inside app-states just declare states using
+        `app-state` element.
 
         ```html
 
@@ -45,11 +47,11 @@
         ```
         ## Common usage scenarios
 
-        This section summarizes common state manager methods you will probably use in your applications.
+        This section summarizes common state manager methods you will probably need to use in your applications.
 
         ### Matching url value to a state
 
-        Use matchState method to get a state instance for a given url value.
+        Use `matchState` method to get a state instance for a given URL value.
 
         ```javascript
         Polymer.whenReady(function() {

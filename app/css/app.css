@@ -41,6 +41,8 @@ body {
 
   color: #757575;
 
+  line-height:1.45;
+
 }
 
 .app /deep/ paper-tabs {
@@ -213,8 +215,16 @@ body {
 
   line-height: 1.45;
 
-  background-color: #f7f7f7;
+  background-color: #e6e6e6;
 
   border-radius: 3px;
 
 }
+
+.app /deep/ code {
+  font-size: 110%;
+  background-color: #e6e6e6;
+  padding:2px;
+
+}
+

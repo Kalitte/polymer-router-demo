@@ -4,9 +4,10 @@
       <mark-down>
         # Data binding and state model
 
-        When a new state is loaded app-states creates a model object for that state.
+        When a new state is loaded app-states initializes a new model object for the state.
 
-        Model is reponsible
+        Model is reponsible for;
+
         - Providing url parameter names and values,
         - Providing state instance,
         - Providing a custom object
@@ -14,10 +15,10 @@
         to the owner and the children of owner state.
 
         Every state creates a new instance which inherits from the model object of parent state.
-        By default model instance is empty i.e. doesnot have any properties.
+        By default, model instance is empty i.e. doesnot have any properties.
 
         ## Binding to URL parameters and State instance
-        To add URL parameters and state instance use `bindUrlParams` and `bindState` attributes.
+        To add URL parameters and state instance use `bindUrlParams` and `bindState` attributes respectively.
 
         ```html
         &lt;body unresolved&gt;
@@ -63,8 +64,8 @@
           &lt;my-app&gt;&lt;/my-app&gt;
         &lt;/body&gt;
         ```
-        Note that adding these attributes for home state is enough since other states inherites the model
-        object of home state since they are children of home.
+        Note that adding these attributes for home state is enough since other states inherit the model
+        object of home state.
 
         You can customize property names for url parameters and state by setting values for attributes.
 
@@ -104,8 +105,7 @@
           &lt;/template&gt;
         ```
 
-        If a state has `bindModel` attribute, app-states creates a property named `model` on the state model object and sets its value to the attribute value.
-
+        If a state has `bindModel` attribute, app-states creates a property named `model` inside the state model object and sets its value to the evaluated attribute value.
 
         You can change property name using `bindModelAs` attribute.
 
@@ -116,8 +116,8 @@
           &lt;/template&gt;
           ```
 
-        If you add `bindModelAs` attribute to a state without specifying a value and bind an object, app-states copies
-        property names to the model.
+        If you add `bindModelAs` attribute to a state without specifying a value and bind an object, app-states mixes
+        property names with the model.
 
         ```html
         &lt;app-state id=&quot;articles&quot; bindModel=&quot;{{'\{{myModel}\}'}}&quot; bindModelAs=&quot;&quot;&gt;
@@ -127,10 +127,10 @@
           &lt;/template&gt;
         ```
         ## Using bindAs attribute
-        `bindAs` attribute allows you to create a namespace for the model. This is very useful if you
+        `bindAs` attribute allows you to create a namespace for the model. This is useful if you
         want to share whole state model with one binding.
 
-        Consider tthe updated `article-view` element.
+        Consider the updated `article-view` element.
 
         ```html
         &lt;polymer-element name=&quot;article-list&quot; attributes=&quot;stateModel&quot; noscript&gt;
@@ -161,7 +161,7 @@
 
         ## Model inheritance and template models
 
-        Model inheritance allows you to share common data between states but also customize the model for a state.
+        Model inheritance allows you to share common data between states but also customize the model for a specific state.
 
         ```html
         &lt;polymer-element name=&quot;my-app&quot;&gt;

@@ -3,9 +3,9 @@
     <div content>
       <mark-down>
         # Using Application States
-        app-state component is responsible for managing application state.
+        app-state component is responsible for managing application states.
 
-        To declare an application state for an url insert an app-state tag inside
+        To declare a state for an URL insert an app-state tag inside
         state manager.
 
         ```html
@@ -16,15 +16,15 @@
         &lt;/template&gt;
         ...
         ```
-        First child of state manager is the root state and other states should be children
-        of root state.
+        First child of state manager is the root state and all other states are children
+        of this state.
 
-        As an overview, when url changes;
+        As an overview, when browser URL changes state manages does the following;
 
-        - State manager locates a state object corresponding to the active url.
-        - State initializes an object which will be used as a model for the state and it's children.
-        - State gets a list of states-template elements.
-        - State creates instances using templates and places them into the associated place-holder or state-section elements.
+        - Locates a state object corresponding to the url.
+        - State gets a list of [states-template](#/documentation/work-with-state-templates) elements.
+        - State creates as many as contents dynamically and places them into the associated
+        [place-holder](#/documentation/work-with-state-templates) or [state-section](#/documentation/work-with-state-templates) elements.
 
         ## Associating URL's with states.
 
@@ -43,8 +43,8 @@
         &lt;/app-states&gt;
         ```
 
-        If you don't specify `url` attribute `id` is used for generating url. Below code snippet demonstrates
-        usign `url` attribute.
+        If you don't specify `url` attribute `id` attribute is used for automatic URL generation.
+        Below code snippet demonstrates usign `url` attribute.
 
         ```html
         &lt;app-states id=&quot;stateManager&quot;&gt;
@@ -57,8 +57,8 @@
         &lt;/app-states&gt;
         ```
 
-        As a last alternative you can also use `urlPostfix` attribute. This is the best option if you don't want
-        to use `id` or absolute `url` values.
+        As a last alternative you can also use `urlPostfix` attribute.
+        This is the best option if you don't want to use `id` or absolute `url` values.
 
 
         ```html
@@ -74,7 +74,7 @@
 
         ### URL parameters
         URL parameters (or variables) allow to define URL attributes as templates and extracting variable
-        values from the browser URL based on that template.
+        values from the actual URL based on that template.
 
         ```html
         &lt;app-states id=&quot;stateManager&quot;&gt;
@@ -91,15 +91,15 @@
           &lt;/app-state&gt;
         &lt;/app-states&gt;
         ```
-        To define a URL paramater use `:` before the parameter name. State manager will handle matching actual URL
-        value to the template and extracting paramater names and values.
+        To define a URL parameter use `:` before the parameter name. State manager will handle matching actual URL
+        value to the template and extracting parameter names and values.
 
         ### Using regular expressions
         If you add `regexp` attribute to an `app-state` element, `url` value is considered to be a regular expression and
         state matching is done using this regular expression.
 
         ## Nested states
-        app-states supports nested states. Nested states allows sharing and customizing state model
+        app-states supports nested states. Nested states allow sharing and customizing state model
         between parent state and its children.
 
         In an app-states application there is only one instance of state manager and state manager should
@@ -132,8 +132,8 @@
         ```
 
         Another alternative is using `childStates` attribute of `app-state` component.
-        This allows you to declare child states inside another element which is generally located inside a different file.
-        This is usefull if you have many states and don't mixup all states in same element.
+        This allows you to declare child states inside another element which is generally located inside
+        a different file. This is usefull if you have many states and don't mixup all states in same element.
 
         ```html
         &lt;!-- app.html --&gt;
