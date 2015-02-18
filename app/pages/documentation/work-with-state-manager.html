@@ -45,11 +45,50 @@
           &lt;/app-state&gt;
         &lt;/app-states&gt;
         ```
+
+        ## Setting options
+        ### mode
+
+        Working mode governs URL matching. State manager supports two working modes.
+
+        #### hash
+        When mode is set to `hash` URL matching is done using hashes like #/, #/login.
+
+        ```html
+        &lt;app-states mode=&quot;hash&quot;&gt;
+
+        &lt;/app-states&gt;
+        ```
+
+        This is the default mode.
+
+        #### pushstate
+        When mode is set to `pushtate` URL matching is done using regular paths URLs /, /login.
+        If you want to use `pushstate` mode you also need to make some changes on your server side so you
+        don't get 404 errors. On your server side, independent of path, always return content of index.html or
+        default document so client side will handle URL matching.
+
+        ```html
+        &lt;app-states mode=&quot;pushstate&quot;&gt;
+
+        &lt;/app-states&gt;
+        ```
+
+        ### virtualPath
+        `virtualPath` allows to ignore a URL prefix value when matching URL's to states. This may be
+        useful when your application uses virtual paths.
+
+        virtualPath is also used by [`states-anchor`](#/documentation/work-with-ui-components) component
+        to generate href attribute.
+
+        `virtualPath` may be required if you application is served other than root (/)  and
+        if state manager `mode` is set to `pushstate`.
+
         ## Common usage scenarios
 
         This section summarizes common state manager methods you will probably need to use in your applications.
 
-        ### Matching url value to a state
+        ### Matching url values to a state
 
         Use `matchState` method to get a state instance for a given URL value.
 
@@ -74,6 +113,7 @@
           // null value means a state is not matched.
         });
         ```
+
         ### Getting state reference by id
 
         Use `getStateById` method to get a reference to state identified by the `id` value.

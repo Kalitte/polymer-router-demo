@@ -72,6 +72,48 @@
         &lt;/app-states&gt;
         ```
 
+        ### URL matching
+
+        #### Match a string.
+
+        ```html
+        &lt;app-state url=&quot;/articles&quot;&gt;&lt;/app-state&gt;
+        ```
+
+        #### Store a URL parameter in a variable.
+
+        ```html
+        &lt;app-state url=&quot;/articles/:articleId/view&quot;&gt;&lt;/app-state&gt;
+        ```
+
+        #### Match exactly one path segment with a wildcard.
+
+        ```html
+        &lt;app-state url=&quot;/articles/*&quot;&gt;&lt;/app-state&gt;
+        ```
+
+        #### Match zero-to-many path segments with a globstar.
+
+        ```html
+        &lt;app-state url=&quot;/articles/**&quot;&gt;&lt;/app-state&gt;
+        ```
+
+        #### Use relative paths to ignore the URL prefix.
+        ```html
+        &lt;app-state url=&quot;**/articles&quot;&gt;&lt;/app-state&gt;
+        ```
+
+        #### Catch-all with *.
+
+        ```html
+        &lt;app-state url=&quot;*&quot;&gt;&lt;/app-state&gt;
+        ```
+
+        #### Redirect
+        ```html
+        &lt;app-state url=&quot;*&quot; redirect=&#39;/&#39;&gt;&lt;/app-state&gt;
+        ```
+
         ### URL parameters
         URL parameters (or variables) allow to define URL attributes as templates and extracting variable
         values from the actual URL based on that template.
