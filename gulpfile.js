@@ -22,7 +22,7 @@ gulp.task('browser-sync', function() {
   });
 
   // gulp.watch([
-  //   '!' + __dirname + '/app/components/**/*.*',
+  //   '!' + __dirname + '/app/bower_components/**/*.*',
   //   __dirname + '/app/**/*.{js,html}'
   // ], {
   //   debounceDelay: 400
