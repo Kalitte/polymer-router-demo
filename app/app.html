@@ -2,10 +2,7 @@
 
 <polymer-element name="my-app" class="app">
   <template>
-
-
     <app-states id="stateManager" >
-
       <app-state id="root" header="Home" bindState bindUrlParams>
         <template is="states-template" target="#navheader-toolbar">
           <h2>app-states</h2>
@@ -16,7 +13,7 @@
           <states-menu ignoreAttr="ignoreMenu"></states-menu>
         </template>
 
-        <template is="states-template" target="#main" bindModel="{{ {Hi:12}  }}">
+        <template is="states-template" target="#main">
           <home-page Hi="{{ Hi }}"></home-page>
         </template>
 
@@ -24,7 +21,7 @@
           <template is="states-template" target="#main">
             <articles-home articles="{{ data }}"></articles-home>
           </template>
-          <template is="states-template" target="#navheader-toolbar" class="account">
+          <template is="states-template" target="#navheader-toolbar">
             <h2>Articles</h2>
           </template>
         </app-state>
