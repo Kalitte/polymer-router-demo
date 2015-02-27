@@ -17,21 +17,20 @@
   <link rel="apple-touch-icon" sizes="144x144" href="icons/Icon-72@2x.png">
   <link rel="apple-touch-icon" sizes="120x120" href="icons/iPhone@2x.png">
 
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
-  <link rel="import" href="app.html">
-
+  <script>
+    if ('registerElement' in document && 'createShadowRoot' in HTMLElement.prototype && 'import' in document.createElement('link') && 'content' in document.createElement('template')) {} else {
+      document.write('<script src="bower_components/webcomponentsjs/webcomponents.min.js"><\/script>');
+    }
+  </script>
+  <link rel="import" href="my-app.html">
   <link rel="stylesheet" href="css/master.css" shim-shadowdom>
   <link rel="stylesheet" href="css/app.css" shim-shadowdom>
 
 
 </head>
 
-<body fullbleed vertical layout unresolved>
-
-
-
-      <my-app></my-app>
-
+<body fullbleed unresolved>
+  <my-app></my-app>
 </body>
 
 </html>

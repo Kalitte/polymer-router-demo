@@ -1,4 +1,4 @@
-<polymer-element name="home-page" attributes="Hi">
+<polymer-element name="home-page">
   <template>
       <div content>
 
@@ -30,7 +30,7 @@
         in 5 minutes you will get the idea. Have a look at [documentation](#/documentation).
 
         ## Boilerplate application
-        -   - [app-states-boilerplate](https://github.com/Kalitte/app-states-boilerplate)
+        - [app-states-boilerplate](https://github.com/Kalitte/app-states-boilerplate)
 
         ## Source Code
         - [app-states](https://github.com/Kalitte/app-states)
@@ -49,31 +49,6 @@
   <script>
     Polymer({
 
-
-      selectTab: function() {
-        //this.$.tab.selected = this.urlParams.tab.toString();
-      },
-
-      activateTab: function(e) {
-        // if (!e.detail.isSelected)
-        //   return;
-        // var index = [].indexOf.call(e.srcElement.children, e.detail.item);
-        //  var url = window.appStateManager.currentState.buildUrl({
-        //    tab: index
-        //  });
-        //  window.appStateManager.go(url);
-      },
-
-      detached: function() {
-
-
-      },
-
-      ready: function() {
-        setTimeout(function() {
-          //this.Hi = 1211;
-        }.bind(this), 3000);
-      }
     });
   </script>
 </polymer-element>

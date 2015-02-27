@@ -1,4 +1,4 @@
-<link rel="import" href="ref.html">
+<link rel="import" href="references.html">
 
 <polymer-element name="my-app" class="app">
   <template>
@@ -14,7 +14,7 @@
         </template>
 
         <template is="states-template" target="#main">
-          <home-page Hi="{{ Hi }}"></home-page>
+          <home-page></home-page>
         </template>
 
         <app-state id="articles" urlPostfix="articles" header="Articles Demo" bindModelAs="data" bindModel="{{ articles }}" childStates="article-states">
@@ -49,10 +49,6 @@
           <app-state id="work-with-state-templates" header="Sections & Templates" target="#main"></app-state>
           <app-state id="work-with-data-binding" header="Data Binding" target="#main"></app-state>
           <app-state id="work-with-ui-components" header="Using UI components" target="#main"></app-state>
-
-
-
-
         </app-state>
 
         <app-state url="*" ignoreMenu header="Not Found">
@@ -175,7 +171,6 @@
             this.$.msg.show();
           }.bind(this));
         }
-
       });
 
 
