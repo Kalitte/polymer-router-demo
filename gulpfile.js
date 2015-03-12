@@ -21,14 +21,14 @@ gulp.task('browser-sync', function() {
     startPath: '/app/'
   });
 
-  // gulp.watch([
-  //   '!' + __dirname + '/app/bower_components/**/*.*',
-  //   __dirname + '/app/**/*.{js,html}'
-  // ], {
-  //   debounceDelay: 400
-  // }, function() {
-  //   browserSync.reload();
-  // });
+   gulp.watch([
+     '!' + __dirname + '/app/bower_components/**/*.*',
+     __dirname + '/app/**/*.{js,html}'
+   ], {
+     debounceDelay: 400
+   }, function() {
+     browserSync.reload();
+   });
 });
 
 gulp.task('merge', function() {

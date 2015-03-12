@@ -37,7 +37,7 @@
         this.$.dialog.close();
         this.async(function() {
           var state = window.AppStates.getStateById('articles');
-          window.AppStates.go(state.buildUrl());
+          window.AppStates.go(state.buildUrl(), {state: article});
 
         });
       },

@@ -19,7 +19,7 @@
 
         <app-state id="articles" urlPostfix="articles" header="Articles Demo" bindModelAs="data" bindModel="{{ articles }}" childStates="article-states">
           <template is="states-template" target="#main">
-            <articles-home articles="{{ data }}"></articles-home>
+            <articles-home state="{{state}}" articles="{{ data }}"></articles-home>
           </template>
           <template is="states-template" target="#navheader-toolbar">
             <h2>Articles</h2>

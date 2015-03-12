@@ -1,6 +1,6 @@
-<polymer-element name="articles-home" attributes="articles">
+<polymer-element name="articles-home" attributes="articles state">
   <template>
-    <div content >
+    <div content>
       <template repeat="{{article in articles}}">
         <div class="listItem">
           <h2>{{article.title}}</h2>
@@ -23,7 +23,28 @@
   <script>
   Polymer({
 
+    enterState: function(e) {
+        if (e.target == this.state && e.detail.state) {
+          var articleEdited = e.detail.state;
+          alert('Edited article ' + articleEdited.title);
+        }
+    },
+
     created: function() {
+
+    },
+
+    attached: function() {
+      this.stateEnterHandler = this.enterState.bind(this);
+      this.state.addEventListener('enter-state', this.stateEnterHandler);
+    },
+
+    detached: function() {
+      this.state.removeEventListener('enter-state', this.stateEnterHandler);
+    },
+
+    ready: function() {
+
     },
 
     domReady: function() {
